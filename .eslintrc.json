@@ -10,6 +10,8 @@
     "standard",
     "plugin:@typescript-eslint/recommended",
     "prettier/@typescript-eslint",
+    "plugin:import/warnings",
+    "plugin:import/typescript",
     "prettier/standard",
     "prettier/react"
   ],
@@ -21,13 +23,37 @@
     "ecmaVersion": 12,
     "sourceType": "module"
   },
-  "plugins": ["react", "@typescript-eslint", "prettier"],
+  "plugins": ["react", "@typescript-eslint", "prettier", "import"],
   "rules": {
     "prettier/prettier": "error",
     "space-before-function-paren": "off",
     "react/prop-types": "off",
     // note you must disable the base rule as it can report incorrect errors
     "no-use-before-define": "off",
-    "@typescript-eslint/no-use-before-define": ["error"]
+    "@typescript-eslint/no-use-before-define": ["error"],
+    "import/order": [
+      "error",
+      {
+        "newlines-between": "always",
+        "pathGroupsExcludedImportTypes": ["builtin"],
+        "pathGroups": [
+          {
+            "pattern": "@*/**",
+            "group": "parent",
+            "position": "before"
+          }
+        ],
+        "groups": [
+          ["builtin", "external", "internal"],
+          "unknown",
+          ["parent", "sibling", "index"],
+          "object"
+        ],
+        "alphabetize": {
+          "order": "asc",
+          "caseInsensitive": true
+        }
+      }
+    ]
   }
 }
