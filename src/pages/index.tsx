@@ -1,16 +1,14 @@
-import Head from 'next/head'
 import React from 'react'
 
-const Home: React.FC = () => {
-  return (
-    <div>
-      <Head>
-        <title>Blog do Pedro Pinho</title>
-      </Head>
+import Eerie from '../components/R3F/Scenes/Eerie'
+import { Main } from '../styles/home'
 
-      <h1>Blog do Pedro Pinho</h1>
-    </div>
+const Index: React.FC = () => {
+  return (
+    <Main>
+      <Eerie />
+    </Main>
   )
 }
 
-export default Home
+export default Index
