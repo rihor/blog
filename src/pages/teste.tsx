@@ -1,14 +1,15 @@
 import React, { useCallback, useRef, useState } from 'react'
 import { Canvas } from 'react-three-fiber'
-import { ReinhardToneMapping, Color } from 'three'
+import { Color, ReinhardToneMapping } from 'three'
 
-import Effects from '../Effects'
-import Particles from '../Particles'
+import { EffectComposer, DepthOfField } from '@react-three/postprocessing'
 
-const Eerie: React.FC = () => {
+// import Lights from '../components/R3F/Lights'
+import Particles from '../components/R3F/Particles'
+
+const Teste: React.FC = () => {
   const [down, set] = useState(false)
   const mouse = useRef([0, 0])
-  // const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent)
   const isMobile = false
 
   const onMouseMove = useCallback(
@@ -29,14 +30,15 @@ const Eerie: React.FC = () => {
         gl.setClearColor(new Color('#020207'))
       }}
     >
-      <fog attach="fog" args={['black', 50, 190]} />
-      <pointLight distance={100} intensity={2} color="lightblue" />
-      <ambientLight intensity={10} color="lightblue" />
+      <fog attach="fog" args={['white', 50, 190]} />
+      <pointLight distance={100} intensity={4} color="white" />
+      <Particles count={10000} mouse={mouse} />
 
-      <Particles count={8000} mouse={mouse} />
-      <Effects />
+      <EffectComposer>
+        <DepthOfField />
+      </EffectComposer>
     </Canvas>
   )
 }
 
-export default Eerie
+export default Teste

@@ -30,7 +30,7 @@ const Particles: React.FC<ParticlesProps> = ({ count, mouse }) => {
   }, [count])
 
   // The innards of this hook will run every frame
-  useFrame(state => {
+  useFrame(() => {
     // Makes the light follow the mouse
     light.current.position.set(
       mouse.current[0] / aspect,
@@ -77,7 +77,7 @@ const Particles: React.FC<ParticlesProps> = ({ count, mouse }) => {
       <pointLight ref={light} distance={40} intensity={8} color="lightblue" />
       <instancedMesh ref={mesh} args={[null, null, count]}>
         <dodecahedronBufferGeometry args={[0.2, 0]} />
-        <meshPhongMaterial color="#050505" />
+        <meshPhongMaterial color="#020207" />
       </instancedMesh>
     </>
   )

@@ -1,6 +1,6 @@
 import React, { forwardRef, useMemo } from 'react'
 import { useLoader, useUpdate } from 'react-three-fiber'
-import * as THREE from 'three'
+import { FontLoader, Vector3, Mesh } from 'three'
 
 const Text = (
   {
@@ -9,15 +9,16 @@ const Text = (
     hAlign = 'center',
     size = 1,
     color = '#000000',
+    position,
     ...props
   },
   ref
 ) => {
-  const font = useLoader(THREE.FontLoader, '/bold.blob')
+  const font = useLoader(FontLoader, '/bold.blob')
   const config = useMemo(() => ({ font, size: 40, height: 50 }), [font])
-  const mesh = useUpdate<THREE.Mesh>(
+  const mesh = useUpdate<Mesh>(
     self => {
-      const size = new THREE.Vector3()
+      const size = new Vector3()
       self.geometry.computeBoundingBox()
       self.geometry.boundingBox.getSize(size)
       self.position.x =
@@ -29,7 +30,12 @@ const Text = (
   )
 
   return (
-    <group ref={ref} {...props} scale={[0.1 * size, 0.1 * size, 0.1]}>
+    <group
+      ref={ref}
+      {...props}
+      scale={[0.1 * size, 0.1 * size, 0.1]}
+      position={position}
+    >
       <mesh ref={mesh}>
         <textGeometry args={[children, config]} />
         <meshNormalMaterial />
