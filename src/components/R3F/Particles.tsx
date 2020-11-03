@@ -9,6 +9,7 @@ interface ParticlesProps {
 
 const Particles: React.FC<ParticlesProps> = ({ count, mouse }) => {
   const mesh = useRef<THREE.InstancedMesh>()
+  const group = useRef<THREE.Group>()
   const light = useRef<THREE.Light>()
   const { size, viewport } = useThree()
   const aspect = size.width / viewport.width
@@ -31,6 +32,8 @@ const Particles: React.FC<ParticlesProps> = ({ count, mouse }) => {
 
   // The innards of this hook will run every frame
   useFrame(() => {
+    // group.current.position.z += 0.05
+
     // Makes the light follow the mouse
     light.current.position.set(
       mouse.current[0] / aspect,
@@ -39,15 +42,19 @@ const Particles: React.FC<ParticlesProps> = ({ count, mouse }) => {
     )
 
     // Run through the randomized data to calculate some movement
-    particles.forEach((particle, i) => {
+    particles.forEach((particle, index) => {
       let { t, factor, speed, xFactor, yFactor, zFactor } = particle
+
       // There is no sense or reason to any of this, just messing around with trigonometric functions
       t = particle.t += speed / 2
+
       const a = Math.cos(t) + Math.sin(t * 1) / 10
       const b = Math.sin(t) + Math.cos(t * 2) / 10
       const s = Math.cos(t)
+
       particle.mx += (mouse.current[0] - particle.mx) * 0.01
       particle.my += (mouse.current[1] * -1 - particle.my) * 0.01
+
       // Update the dummy object
       dummy.position.set(
         (particle.mx / 10) * a +
@@ -63,23 +70,26 @@ const Particles: React.FC<ParticlesProps> = ({ count, mouse }) => {
           Math.cos((t / 10) * factor) +
           (Math.sin(t * 3) * factor) / 10
       )
+
       dummy.scale.set(s, s, s)
       dummy.rotation.set(s * 5, s * 5, s * 5)
       dummy.updateMatrix()
+
       // And apply the matrix to the instanced item
-      mesh.current.setMatrixAt(i, dummy.matrix)
+      mesh.current.setMatrixAt(index, dummy.matrix)
     })
+
     mesh.current.instanceMatrix.needsUpdate = true
   })
 
   return (
-    <>
+    <group ref={group}>
       <pointLight ref={light} distance={40} intensity={8} color="lightblue" />
       <instancedMesh ref={mesh} args={[null, null, count]}>
         <dodecahedronBufferGeometry args={[0.2, 0]} />
         <meshPhongMaterial color="#020207" />
       </instancedMesh>
-    </>
+    </group>
   )
 }
 

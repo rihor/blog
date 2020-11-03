@@ -1,13 +1,17 @@
-import React from 'react'
+import React, { useMemo } from 'react'
+import { Vector2 } from 'three'
 
 import {
   EffectComposer,
   DepthOfField,
   ChromaticAberration,
-  Vignette
+  Vignette,
+  Bloom
 } from '@react-three/postprocessing'
 
 const Effects: React.FC = () => {
+  const chromaticAberrationOffset = useMemo(() => new Vector2(0.02, 0.002), [])
+
   return (
     <EffectComposer>
       <DepthOfField
@@ -18,7 +22,8 @@ const Effects: React.FC = () => {
         blur={0.49}
       />
       <Vignette opacity={0.5} />
-      <ChromaticAberration />
+      <ChromaticAberration offset={chromaticAberrationOffset} />
+      <Bloom luminanceThreshold={0.6} />
     </EffectComposer>
   )
 }
