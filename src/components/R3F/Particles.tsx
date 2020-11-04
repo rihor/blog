@@ -1,6 +1,6 @@
 import React, { useRef, useMemo } from 'react'
 import { useFrame, useThree } from 'react-three-fiber'
-import * as THREE from 'three'
+import { InstancedMesh, Light, Group, Object3D } from 'three'
 
 interface ParticlesProps {
   count: number
@@ -20,13 +20,13 @@ interface Particle {
 }
 
 const Particles: React.FC<ParticlesProps> = ({ count, mouse }) => {
-  const mesh = useRef<THREE.InstancedMesh>()
-  const group = useRef<THREE.Group>()
-  const light = useRef<THREE.Light>()
+  const mesh = useRef<InstancedMesh>()
+  const group = useRef<Group>()
+  const light = useRef<Light>()
   const { size, viewport } = useThree()
   const aspect = size.width / viewport.width
 
-  const dummy = useMemo(() => new THREE.Object3D(), [])
+  const dummy = useMemo(() => new Object3D(), [])
   // Generate some random positions, speed factors and timings
   const particles = useMemo(() => {
     const temp: Array<Particle> = []
@@ -53,7 +53,7 @@ const Particles: React.FC<ParticlesProps> = ({ count, mouse }) => {
   }, [count])
 
   // The innards of this hook will run every frame
-  useFrame(() => {
+  useFrame(state => {
     // Makes the light follow the mouse
     light.current.position.set(
       mouse.current[0] / aspect,
@@ -74,7 +74,7 @@ const Particles: React.FC<ParticlesProps> = ({ count, mouse }) => {
 
       particle.mx += (mouse.current[0] - particle.mx) * 0.01
       particle.my += (mouse.current[1] * -1 - particle.my) * 0.01
-      particle.mz += 0.05
+      particle.mz = 0.01
 
       // Update the dummy object
       dummy.position.set(

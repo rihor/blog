@@ -27,7 +27,7 @@ const Teste: React.FC = () => {
       onMouseDown={() => set(true)}
       onCreated={({ gl }) => {
         gl.toneMapping = ReinhardToneMapping
-        gl.setClearColor(new Color('#020207'))
+        gl.setClearColor(new Color('#040412'))
       }}
     >
       <fog attach="fog" args={['white', 50, 190]} />

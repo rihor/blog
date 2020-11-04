@@ -7,6 +7,10 @@ const Index: React.FC = () => {
   return (
     <Main>
       <Eerie />
+      <a href="https://rihor-portfolio.now.sh/">Portfolio</a>
+      <header>
+        <h1>Abismo do Pedro</h1>
+      </header>
     </Main>
   )
 }

@@ -23,7 +23,7 @@ const Effects: React.FC = () => {
       />
       <Vignette opacity={0.6} />
       <ChromaticAberration offset={chromaticAberrationOffset} />
-      <Bloom luminanceThreshold={0.6} />
+      <Bloom luminanceThreshold={0.5} />
     </EffectComposer>
   )
 }
