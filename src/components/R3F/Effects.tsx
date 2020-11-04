@@ -21,7 +21,7 @@ const Effects: React.FC = () => {
         height={480}
         blur={0.49}
       />
-      <Vignette opacity={0.5} />
+      <Vignette opacity={0.6} />
       <ChromaticAberration offset={chromaticAberrationOffset} />
       <Bloom luminanceThreshold={0.6} />
     </EffectComposer>

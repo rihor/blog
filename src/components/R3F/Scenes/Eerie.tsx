@@ -26,10 +26,13 @@ const Eerie: React.FC = () => {
       onMouseDown={() => set(true)}
       onCreated={({ gl }) => {
         gl.toneMapping = ReinhardToneMapping
-        gl.setClearColor(new Color('#020207'))
+        gl.setClearColor(new Color('#03030a'))
+      }}
+      gl={{
+        powerPreference: 'high-performance'
       }}
     >
-      <fog attach="fog" args={['black', 50, 190]} />
+      <fog attach="fog" args={['#040412', 50, 190]} />
       <pointLight distance={100} intensity={2} color="lightblue" />
       <ambientLight intensity={10} color="lightblue" />
 
