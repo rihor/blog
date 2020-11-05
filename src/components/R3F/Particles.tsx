@@ -53,7 +53,7 @@ const Particles: React.FC<ParticlesProps> = ({ count, mouse }) => {
   }, [count])
 
   // The innards of this hook will run every frame
-  useFrame(state => {
+  useFrame(() => {
     // Makes the light follow the mouse
     light.current.position.set(
       mouse.current[0] / aspect,
@@ -74,7 +74,7 @@ const Particles: React.FC<ParticlesProps> = ({ count, mouse }) => {
 
       particle.mx += (mouse.current[0] - particle.mx) * 0.01
       particle.my += (mouse.current[1] * -1 - particle.my) * 0.01
-      particle.mz = 0.01
+      particle.mz = 0.05
 
       // Update the dummy object
       dummy.position.set(

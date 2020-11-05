@@ -1,19 +1,32 @@
-import React, { useCallback, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { Canvas } from 'react-three-fiber'
 import { ReinhardToneMapping, Color } from 'three'
 
 import Effects from '../Effects'
 import Particles from '../Particles'
 
-const Eerie: React.FC = () => {
-  const [down, set] = useState(false)
+interface EerieSceneProps {
+  isMobile: boolean
+}
+
+interface MouseMoveArgs {
+  clientX: number
+  clientY: number
+}
+
+const EerieScene: React.FC<EerieSceneProps> = ({ isMobile }) => {
   const mouse = useRef([0, 0])
-  // const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent)
-  const isMobile = false
+
+  useEffect(() => {
+    console.log(navigator)
+  }, [])
 
   const onMouseMove = useCallback(
-    ({ clientX: x, clientY: y }) =>
-      (mouse.current = [x - window.innerWidth / 2, y - window.innerHeight / 2]),
+    ({ clientX, clientY }: MouseMoveArgs) =>
+      (mouse.current = [
+        clientX - window.innerWidth / 2,
+        clientY - window.innerHeight / 2
+      ]),
     []
   )
 
@@ -22,8 +35,6 @@ const Eerie: React.FC = () => {
       pixelRatio={Math.min(2, isMobile ? window.devicePixelRatio : 1)}
       camera={{ fov: 100, position: [0, 0, 30] }}
       onMouseMove={onMouseMove}
-      onMouseUp={() => set(false)}
-      onMouseDown={() => set(true)}
       onCreated={({ gl }) => {
         gl.toneMapping = ReinhardToneMapping
         gl.setClearColor(new Color('#03030a'))
@@ -36,10 +47,10 @@ const Eerie: React.FC = () => {
       <pointLight distance={100} intensity={2} color="lightblue" />
       <ambientLight intensity={10} color="lightblue" />
 
-      <Particles count={8000} mouse={mouse} />
+      <Particles count={isMobile ? 5000 : 8000} mouse={mouse} />
       <Effects />
     </Canvas>
   )
 }
 
-export default Eerie
+export default EerieScene
