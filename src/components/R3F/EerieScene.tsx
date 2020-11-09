@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { Canvas } from 'react-three-fiber'
 import { ReinhardToneMapping, Color } from 'three'
 
@@ -11,10 +11,6 @@ interface EerieSceneProps {
 }
 
 const EerieScene: React.FC<EerieSceneProps> = ({ isMobile, mouse }) => {
-  useEffect(() => {
-    console.log(navigator)
-  }, [])
-
   return (
     <Canvas
       pixelRatio={Math.min(2, isMobile ? window.devicePixelRatio : 1)}
@@ -27,7 +23,7 @@ const EerieScene: React.FC<EerieSceneProps> = ({ isMobile, mouse }) => {
         powerPreference: 'high-performance'
       }}
     >
-      <fog attach="fog" args={['#040412', 50, 190]} />
+      <fog attach="fog" args={['#040412', 50, 150]} />
       <pointLight distance={100} intensity={2} color="lightblue" />
       <ambientLight intensity={10} color="lightblue" />
 

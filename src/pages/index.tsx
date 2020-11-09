@@ -29,7 +29,6 @@ const Index: React.FC = () => {
       clientX - window.innerWidth / 2,
       clientY - window.innerHeight / 2
     ]
-    console.log(mouse.current)
   }, [])
 
   return (
