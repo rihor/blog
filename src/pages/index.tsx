@@ -2,7 +2,7 @@ import { GetServerSideProps } from 'next'
 import Link from 'next/link'
 import React, { useState, useEffect, useCallback, useRef } from 'react'
 
-import EerieScene from '../components/R3F/Scenes/Eerie'
+import EerieScene from '../components/R3F/EerieScene'
 import {
   RootContainer,
   ContentContainer,

@@ -1,17 +1,16 @@
-import React, { useCallback, useEffect, useRef } from 'react'
+import React, { useEffect } from 'react'
 import { Canvas } from 'react-three-fiber'
 import { ReinhardToneMapping, Color } from 'three'
 
-import Effects from '../Effects'
-import Particles from '../Particles'
+import Effects from './components/Effects'
+import Particles from './components/Particles'
 
 interface EerieSceneProps {
   isMobile: boolean
   mouse: React.MutableRefObject<number[]>
 }
-const EerieScene: React.FC<EerieSceneProps> = ({ isMobile, mouse }) => {
-  // const mouse = useRef([0, 0])
 
+const EerieScene: React.FC<EerieSceneProps> = ({ isMobile, mouse }) => {
   useEffect(() => {
     console.log(navigator)
   }, [])

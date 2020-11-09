@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
-import Eerie from '../components/R3F/Scenes/Eerie'
+import Eerie from '../components/R3F/EerieScene'
 
 export const RootContainer = styled.div`
   position: relative;
