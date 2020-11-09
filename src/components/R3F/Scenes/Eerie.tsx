@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useRef } from 'react'
 import { Canvas } from 'react-three-fiber'
 import { ReinhardToneMapping, Color } from 'three'
 
@@ -7,34 +7,19 @@ import Particles from '../Particles'
 
 interface EerieSceneProps {
   isMobile: boolean
+  mouse: React.MutableRefObject<number[]>
 }
-
-interface MouseMoveArgs {
-  clientX: number
-  clientY: number
-}
-
-const EerieScene: React.FC<EerieSceneProps> = ({ isMobile }) => {
-  const mouse = useRef([0, 0])
+const EerieScene: React.FC<EerieSceneProps> = ({ isMobile, mouse }) => {
+  // const mouse = useRef([0, 0])
 
   useEffect(() => {
     console.log(navigator)
   }, [])
 
-  const onMouseMove = useCallback(
-    ({ clientX, clientY }: MouseMoveArgs) =>
-      (mouse.current = [
-        clientX - window.innerWidth / 2,
-        clientY - window.innerHeight / 2
-      ]),
-    []
-  )
-
   return (
     <Canvas
       pixelRatio={Math.min(2, isMobile ? window.devicePixelRatio : 1)}
       camera={{ fov: 100, position: [0, 0, 30] }}
-      onMouseMove={onMouseMove}
       onCreated={({ gl }) => {
         gl.toneMapping = ReinhardToneMapping
         gl.setClearColor(new Color('#03030a'))

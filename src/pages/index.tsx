@@ -1,24 +1,57 @@
 import { GetServerSideProps } from 'next'
-import React, { useState, useEffect } from 'react'
+import Link from 'next/link'
+import React, { useState, useEffect, useCallback, useRef } from 'react'
 
 import EerieScene from '../components/R3F/Scenes/Eerie'
-import { Main } from '../styles/home'
+import {
+  RootContainer,
+  ContentContainer,
+  Header,
+  Main,
+  Nav
+} from '../styles/home'
+
+interface MouseMoveArgs {
+  clientX: number
+  clientY: number
+}
 
 const Index: React.FC = () => {
   const [isMobile, setIsMobile] = useState(false)
+  const mouse = useRef([0, 0])
 
   useEffect(() => {
     setIsMobile(/iPhone|iPad|iPod|Android/i.test(navigator.userAgent))
   }, [])
 
+  const onMouseMove = useCallback(({ clientX, clientY }: MouseMoveArgs) => {
+    mouse.current = [
+      clientX - window.innerWidth / 2,
+      clientY - window.innerHeight / 2
+    ]
+    console.log(mouse.current)
+  }, [])
+
   return (
-    <Main>
-      <EerieScene isMobile={isMobile} />
-      <a href="https://rihor-portfolio.now.sh/">Portfolio</a>
-      <header>
-        <h1>Abismo do Pedro</h1>
-      </header>
-    </Main>
+    <RootContainer>
+      <ContentContainer onMouseMove={onMouseMove}>
+        <Main>
+          <Nav>
+            <a href="https://rihor-portfolio.now.sh/">PORTFOLIO</a>
+          </Nav>
+          <Header>
+            <h1>Abismo</h1>
+
+            <button>
+              <Link href="/texts">
+                <a>Meus textos</a>
+              </Link>
+            </button>
+          </Header>
+        </Main>
+      </ContentContainer>
+      <EerieScene isMobile={isMobile} mouse={mouse} />
+    </RootContainer>
   )
 }
 
