@@ -38,6 +38,7 @@ const Index: React.FC = () => {
           <Nav>
             <a href="https://rihor-portfolio.now.sh/">PORTFOLIO</a>
           </Nav>
+
           <Header>
             <h1>Abismo</h1>
 

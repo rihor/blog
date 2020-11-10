@@ -11,9 +11,9 @@ export default createGlobalStyle`
   }
 
   html, body {
-    width: 100%;
+    width: 100vw;
     height: 100%;
-    background: paleturquoise;
+    background: #1b1b36;
   }
 
   ::selection {

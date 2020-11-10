@@ -4,6 +4,8 @@ import Eerie from '../components/R3F/EerieScene'
 
 export const RootContainer = styled.div`
   position: relative;
+  width: 100vw;
+  height: 100vh;
 
   > div {
     position: absolute;
@@ -22,13 +24,13 @@ export const ContentContainer = styled.section`
   position: absolute;
   top: 0;
   left: 0;
-  width: 100%;
+  width: 100vw;
   height: 100vh;
 `
 
 export const Main = styled.main`
   height: 100%;
-  width: 1200px;
+  width: 80%;
   margin: 0 auto;
 `
 
@@ -37,7 +39,7 @@ export const Nav = styled.nav`
 
   a {
     font-family: Arial, Helvetica, sans-serif;
-    font-size: clamp(8px, 8px + 0.5em, 20px);
+    font-size: clamp(10px, 10px + 0.2em, 18px);
     letter-spacing: 4px;
     font-weight: bold;
     color: #fafffa;
@@ -50,7 +52,7 @@ export const Header = styled.header`
   h1 {
     /* font-size: 8em; */
     font-family: 'Playfair Display', serif;
-    font-size: clamp(4em, 4em + 5vw, 9em);
+    font-size: clamp(46px, 82px + 5em, 124px);
     font-weight: bold;
     line-height: 1em;
     color: #fafffa;
@@ -64,7 +66,7 @@ export const Header = styled.header`
 
     a {
       font-family: 'Playfair Display', serif;
-      font-size: clamp(11px, 12px, 20px);
+      font-size: clamp(12px, 12px + 0.5em, 20px);
       letter-spacing: 1px;
       color: #000;
     }
