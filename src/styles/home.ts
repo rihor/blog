@@ -35,7 +35,7 @@ export const Main = styled.main`
 `
 
 export const Nav = styled.nav`
-  padding: 30px 0 200px 0;
+  padding: 30px 0 30vh 0;
 
   a {
     font-family: Arial, Helvetica, sans-serif;
@@ -50,9 +50,8 @@ export const Header = styled.header`
   user-select: none;
 
   h1 {
-    /* font-size: 8em; */
     font-family: 'Playfair Display', serif;
-    font-size: clamp(46px, 82px + 5em, 124px);
+    font-size: clamp(1.75rem, 20vw, 8em);
     font-weight: bold;
     line-height: 1em;
     color: #fafffa;
@@ -69,6 +68,23 @@ export const Header = styled.header`
       font-size: clamp(12px, 12px + 0.5em, 20px);
       letter-spacing: 1px;
       color: #000;
+    }
+
+    @media screen and (max-width: 600px) {
+      & {
+        position: absolute;
+        bottom: 2%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+
+        width: 90%;
+        height: 40px;
+        margin: 0 5px;
+
+        a {
+          font-weight: bold;
+        }
+      }
     }
   }
 `
