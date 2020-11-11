@@ -9,7 +9,11 @@ import {
   Bloom
 } from '@react-three/postprocessing'
 
-const Effects: React.FC = () => {
+interface EffectsProps {
+  isMobile: boolean
+}
+
+const Effects: React.FC<EffectsProps> = ({ isMobile }) => {
   const chromaticAberrationOffset = useMemo(() => new Vector2(0.02, 0.002), [])
 
   return (
@@ -21,8 +25,8 @@ const Effects: React.FC = () => {
         height={480}
         blur={0.49}
       />
-      <Vignette opacity={0.6} />
-      <ChromaticAberration offset={chromaticAberrationOffset} />
+      {!isMobile && <Vignette opacity={0.6} />}
+      {!isMobile && <ChromaticAberration offset={chromaticAberrationOffset} />}
       <Bloom luminanceThreshold={0.5} />
     </EffectComposer>
   )

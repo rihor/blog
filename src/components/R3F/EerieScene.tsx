@@ -29,7 +29,7 @@ const EerieScene: React.FC<EerieSceneProps> = ({ isMobile, mouse }) => {
         <ambientLight intensity={10} color="lightblue" />
 
         <Particles count={isMobile ? 4000 : 8000} mouse={mouse} />
-        {/* <Effects /> */}
+        <Effects isMobile={isMobile} />
       </Canvas>
     </>
   )
