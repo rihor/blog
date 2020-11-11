@@ -16,6 +16,7 @@ export const RootContainer = styled.div`
     height: 100vh;
     top: 0;
     left: 0;
+    image-rendering: crisp-edges;
   }
 `
 

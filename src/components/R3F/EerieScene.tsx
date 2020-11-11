@@ -13,7 +13,7 @@ interface EerieSceneProps {
 const EerieScene: React.FC<EerieSceneProps> = ({ isMobile, mouse }) => {
   return (
     <Canvas
-      pixelRatio={Math.min(2, isMobile ? window.devicePixelRatio : 1)}
+      pixelRatio={1}
       camera={{ fov: 100, position: [0, 0, 30] }}
       onCreated={({ gl }) => {
         gl.toneMapping = ReinhardToneMapping
@@ -27,8 +27,8 @@ const EerieScene: React.FC<EerieSceneProps> = ({ isMobile, mouse }) => {
       <pointLight distance={100} intensity={2} color="lightblue" />
       <ambientLight intensity={10} color="lightblue" />
 
-      <Particles count={isMobile ? 5000 : 8000} mouse={mouse} />
-      <Effects />
+      <Particles count={isMobile ? 3500 : 8000} mouse={mouse} />
+      <Effects isMobile={isMobile} />
     </Canvas>
   )
 }
