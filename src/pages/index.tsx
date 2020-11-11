@@ -40,7 +40,7 @@ const Index: React.FC = () => {
           </Nav>
 
           <Header>
-            <h1>{String(isMobile)}</h1>
+            <h1>Abismo</h1>
 
             <button>
               <Link href="/texts">
