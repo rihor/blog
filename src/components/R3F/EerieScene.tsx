@@ -15,7 +15,7 @@ const EerieScene: React.FC<EerieSceneProps> = ({ isMobile, mouse }) => {
 
   useEffect(() => {
     setDevicePixelRatio(window.devicePixelRatio)
-  }, [])
+  })
 
   return (
     <>
