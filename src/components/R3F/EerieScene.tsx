@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { Canvas } from 'react-three-fiber'
 import { ReinhardToneMapping, Color } from 'three'
 
@@ -11,16 +11,10 @@ interface EerieSceneProps {
 }
 
 const EerieScene: React.FC<EerieSceneProps> = ({ isMobile, mouse }) => {
-  const [devicePixelRatio, setDevicePixelRatio] = useState(0)
-
-  useEffect(() => {
-    setDevicePixelRatio(window.devicePixelRatio)
-  })
-
   return (
     <>
       <Canvas
-        pixelRatio={Math.min(1, devicePixelRatio)}
+        pixelRatio={1}
         camera={{ fov: 100, position: [0, 0, 30] }}
         onCreated={({ gl }) => {
           gl.toneMapping = ReinhardToneMapping
@@ -37,12 +31,6 @@ const EerieScene: React.FC<EerieSceneProps> = ({ isMobile, mouse }) => {
         <Particles count={isMobile ? 5000 : 8000} mouse={mouse} />
         <Effects />
       </Canvas>
-      <h2 style={{ color: 'white', fontSize: 50 }}>
-        Piexel Ratio: {String(Math.min(2, isMobile ? devicePixelRatio : 1))}
-      </h2>
-      <h2 style={{ color: 'white', fontSize: 50 }}>
-        devicePixelRatio: {String(isMobile ? devicePixelRatio : 1)}
-      </h2>
     </>
   )
 }
