@@ -14,7 +14,7 @@ const EerieScene: React.FC<EerieSceneProps> = ({ isMobile, mouse }) => {
   return (
     <>
       <Canvas
-        pixelRatio={Math.min(1, isMobile ? window.devicePixelRatio : 1)}
+        pixelRatio={Math.min(1, window.devicePixelRatio)}
         camera={{ fov: 100, position: [0, 0, 30] }}
         onCreated={({ gl }) => {
           gl.toneMapping = ReinhardToneMapping
