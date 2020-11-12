@@ -1,6 +1,6 @@
-import { GetServerSideProps } from 'next'
+import { NextPage } from 'next'
 import Link from 'next/link'
-import React, { useState, useEffect, useCallback, useRef } from 'react'
+import React, { useCallback, useRef } from 'react'
 
 import EerieScene from '../components/R3F/EerieScene'
 import {
@@ -16,13 +16,12 @@ interface MouseMoveArgs {
   clientY: number
 }
 
-const Index: React.FC = () => {
-  const [isMobile, setIsMobile] = useState(false)
-  const mouse = useRef([0, 0])
+interface Props {
+  isMobile: boolean
+}
 
-  useEffect(() => {
-    setIsMobile(/iPhone|iPad|iPod|Android/i.test(navigator.userAgent))
-  }, [])
+const Index: NextPage<Props> = ({ isMobile }) => {
+  const mouse = useRef([0, 0])
 
   const onMouseMove = useCallback(({ clientX, clientY }: MouseMoveArgs) => {
     mouse.current = [
@@ -55,10 +54,12 @@ const Index: React.FC = () => {
   )
 }
 
-export const getServerSideProps: GetServerSideProps = async () => {
-  return {
-    props: {}
-  }
+Index.getInitialProps = async ({ req }) => {
+  const userAgent = req ? req.headers['user-agent'] : navigator.userAgent
+
+  const isMobile = /iPhone|iPad|iPod|Android|Mobile|Phone/i.test(userAgent)
+
+  return { isMobile }
 }
 
 export default Index
