@@ -3,6 +3,7 @@ import Link from 'next/link'
 import React, { useCallback, useRef } from 'react'
 
 import EerieScene from '../components/R3F/EerieScene'
+import SEO from '../components/SEO'
 import {
   RootContainer,
   ContentContainer,
@@ -32,6 +33,7 @@ const Index: NextPage<Props> = ({ isMobile }) => {
 
   return (
     <RootContainer>
+      <SEO title="Abismo do Pedro" shouldExcludeTitleSuffix />
       <ContentContainer onMouseMove={onMouseMove}>
         <Main>
           <Nav>
