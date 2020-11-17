@@ -43,11 +43,11 @@ const Index: NextPage<Props> = ({ isMobile }) => {
           <Header>
             <h1>Abismo</h1>
 
-            <button>
-              <Link href="/texts">
+            <Link href="/texts">
+              <button>
                 <a>Meus textos</a>
-              </Link>
-            </button>
+              </button>
+            </Link>
           </Header>
         </Main>
       </ContentContainer>
