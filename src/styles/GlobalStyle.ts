@@ -7,7 +7,15 @@ export default createGlobalStyle`
     border: 0;
     outline: 0;
     box-sizing: border-box;
-    font-family: 'Playfair Display', 'Times New Roman', Times, serif;
+
+  }
+
+  h1, h2, h3 {
+    font-family: 'Work Sans', Arial, Helvetica, sans-serif;
+  }
+
+  a, p, time {
+    font-family: 'Markazi Text', 'Times New Roman', Times, serif;
   }
 
   html, body {
@@ -18,7 +26,7 @@ export default createGlobalStyle`
 
   ::selection {
     color: inherit;
-    background: #03030a30;
+    background: #ffffff30;
   }
 
   ul, li {

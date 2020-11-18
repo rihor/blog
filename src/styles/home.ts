@@ -1,6 +1,7 @@
 import styled from 'styled-components'
 
 import Eerie from '../components/R3F/EerieScene'
+import { Nav as BaseNav } from './sharedStyles'
 
 export const RootContainer = styled.div`
   position: relative;
@@ -36,23 +37,14 @@ export const Main = styled.main`
   margin: 0 auto;
 `
 
-export const Nav = styled.nav`
+export const Nav = styled(BaseNav)`
   padding: 30px 0 30vh 0;
-
-  a {
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: clamp(10px, 10px + 0.2em, 18px);
-    letter-spacing: 4px;
-    font-weight: bold;
-    color: #fafffa;
-  }
 `
 
 export const Header = styled.header`
   user-select: none;
 
   h1 {
-    font-family: 'Playfair Display', serif;
     font-size: clamp(1.75rem, 20vw, 8em);
     font-weight: bold;
     line-height: 1em;
@@ -66,7 +58,6 @@ export const Header = styled.header`
     margin-top: 10px;
 
     a {
-      font-family: 'Playfair Display', serif;
       font-size: clamp(12px, 12px + 0.5em, 20px);
       letter-spacing: 1px;
       color: #000;

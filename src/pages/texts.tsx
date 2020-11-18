@@ -6,6 +6,7 @@ import React from 'react'
 
 import SEO from '../components/SEO'
 import { CustomResult, requestAllTexts } from '../lib/prismic'
+import { Background, Main, Nav, TextsContainer } from '../styles/texts'
 
 interface Props {
   result: CustomResult
@@ -17,33 +18,30 @@ const TextsPage: NextPage<Props> = ({ result }) => {
   const texts = result.results
 
   return (
-    <main>
-      <SEO title="Textos" />
-      <nav>
-        <a href="https://rihor-portfolio.now.sh">PORTFOLIO</a>
-      </nav>
-      <header>
-        <h1>Todos os textos</h1>
-      </header>
+    <Background>
+      <Main>
+        <SEO title="Todos os textos" />
+        <Nav>
+          <a href="https://rihor-portfolio.now.sh">PORTFOLIO</a>
+        </Nav>
+        <header style={{ marginBottom: 40 }}>
+          <h1 style={{ color: 'white' }}>Todos os textos</h1>
+        </header>
 
-      <ul>
-        {texts.map(text => (
-          <li
-            key={text.id}
-            style={{ background: '#fefefe', borderRadius: 4, marginBottom: 10 }}
-          >
-            <Link href={`texts/${text.slugs[0]}`}>
-              <div>
+        <TextsContainer>
+          {texts.map(text => (
+            <Link key={text.id} href={`texts/${text.slugs[0]}`}>
+              <article>
                 <h1>{text.data.title[0].text}</h1>
                 <h2>{text.data.subtitle[0].text}</h2>
                 <p>{text.data.body[0].text}</p>
-                <p>{dayjs(text.data.date).format('DD/MM/YYYY')}</p>
-              </div>
+                <time>{dayjs(text.data.date).format('DD/MM/YYYY')}</time>
+              </article>
             </Link>
-          </li>
-        ))}
-      </ul>
-    </main>
+          ))}
+        </TextsContainer>
+      </Main>
+    </Background>
   )
 }
 
