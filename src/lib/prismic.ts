@@ -7,7 +7,13 @@ import { QueryOptions } from 'prismic-javascript/types/ResolvedApi'
 
 interface TextData {
   body: Array<{ spans: Array<string>; text: string; type: string }>
-  collab: { link_type: string }
+  collab: {
+    link_type: string
+    id?: string
+    slug?: string
+    uid?: string
+    type?: string
+  }
   title: Array<{ text: string; type: string }>
   subtitle?: Array<{ text: string; type: string }>
   type: {
