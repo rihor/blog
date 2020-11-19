@@ -2,20 +2,22 @@ import 'dayjs/locale/pt-br'
 import dayjs from 'dayjs'
 import { NextPage } from 'next'
 import Link from 'next/link'
-import React from 'react'
+import Prismic from 'prismic-javascript'
+import React, { useState } from 'react'
 
+import Pagination from '../components/Pagination'
 import SEO from '../components/SEO'
-import { CustomResult, requestAllTexts } from '../lib/prismic'
+import { CustomResult, request } from '../lib/prismic'
 import { Background, Main, Nav, TextsContainer } from '../styles/texts'
 
 interface Props {
-  result: CustomResult
+  initialResult: CustomResult
 }
 
-dayjs.locale('pt-br')
+const TextsPage: NextPage<Props> = ({ initialResult }) => {
+  const [result, setResult] = useState<CustomResult>(initialResult)
 
-const TextsPage: NextPage<Props> = ({ result }) => {
-  const texts = result.results
+  const { page, prev_page, next_page, total_pages, results: texts } = result
 
   return (
     <Background>
@@ -28,6 +30,13 @@ const TextsPage: NextPage<Props> = ({ result }) => {
           <h1 style={{ color: 'white' }}>Todos os textos</h1>
         </header>
 
+        <Pagination
+          page={page}
+          totalPages={total_pages}
+          prevPage={prev_page}
+          nextPage={next_page}
+          setResult={setResult}
+        />
         <TextsContainer>
           {texts.map(text => (
             <Link key={text.id} href={`texts/${text.slugs[0]}`}>
@@ -40,15 +49,25 @@ const TextsPage: NextPage<Props> = ({ result }) => {
             </Link>
           ))}
         </TextsContainer>
+        <Pagination
+          page={page}
+          totalPages={total_pages}
+          prevPage={prev_page}
+          nextPage={next_page}
+          setResult={setResult}
+        />
       </Main>
     </Background>
   )
 }
 
 TextsPage.getInitialProps = async () => {
-  const result = await requestAllTexts()
+  const initialResult = await request(
+    [Prismic.Predicates.at('document.type', 'text')],
+    { pageSize: 10, page: 1, orderings: '[my.text.date desc]' }
+  )
 
-  return { result }
+  return { initialResult }
 }
 
 export default TextsPage

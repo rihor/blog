@@ -39,22 +39,13 @@ const cmsClient = (req = null): DefaultClient => {
   return Prismic.client(apiEndpoint, options)
 }
 
-const request = async (
+export const request = async (
   query: string | string[],
   optionsOrCallback?: QueryOptions | RequestCallback<ApiSearchResponse>
 ): Promise<ApiSearchResponse> => {
   const response = await cmsClient().query(query, optionsOrCallback)
 
   return response
-}
-
-export const requestAllTexts = async (page = 1): Promise<CustomResult> => {
-  const result = await request(
-    [Prismic.Predicates.at('document.type', 'text')],
-    { pageSize: 30, page, orderings: '[my.text.date desc]' }
-  )
-
-  return result
 }
 
 export const retrieveAllSlugs = async (): Promise<Document[]> => {
