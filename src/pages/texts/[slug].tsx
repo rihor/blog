@@ -1,4 +1,5 @@
 import { GetStaticPaths, GetStaticProps, NextPage } from 'next'
+import Link from 'next/link'
 import { RichText } from 'prismic-dom'
 import React from 'react'
 
@@ -22,6 +23,9 @@ const TextPage: NextPage<Props> = ({ text }) => {
       <Main>
         <SEO title="Todos os textos" />
         <Nav>
+          <Link href="/texts">
+            <a>TEXTOS</a>
+          </Link>
           <a href="https://rihor-portfolio.now.sh">PORTFOLIO</a>
         </Nav>
         <Text>

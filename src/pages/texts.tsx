@@ -24,6 +24,9 @@ const TextsPage: NextPage<Props> = ({ initialResult }) => {
       <Main>
         <SEO title="Todos os textos" />
         <Nav>
+          <Link href="/">
+            <a>LANDING PAGE</a>
+          </Link>
           <a href="https://rihor-portfolio.now.sh">PORTFOLIO</a>
         </Nav>
         <header style={{ marginBottom: 40 }}>

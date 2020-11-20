@@ -1,6 +1,14 @@
 import styled from 'styled-components'
 
 export const Nav = styled.nav`
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+
+  a:nth-child(1) {
+    margin-right: auto;
+  }
+
   a {
     font-size: clamp(16px, 18px, 20px);
     letter-spacing: 4px;

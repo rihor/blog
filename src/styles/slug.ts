@@ -16,6 +16,7 @@ export const Nav = styled(BaseNav)`
 
 export const Text = styled.article`
   color: #fefefe;
+  margin-bottom: 100px;
 
   header {
     h1 {
@@ -43,5 +44,9 @@ export const Text = styled.article`
     text-justify: auto;
     margin: 16px 0;
     line-height: 150%;
+  }
+
+  em {
+    opacity: 0.9;
   }
 `
