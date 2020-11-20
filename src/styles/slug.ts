@@ -6,7 +6,7 @@ export const Background = styled.div``
 
 export const Main = styled.main`
   height: 100%;
-  width: 60%;
+  width: 50%;
   margin: 0 auto;
 
   @media screen and (max-width: 800px) {
