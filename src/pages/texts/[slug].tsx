@@ -1,5 +1,6 @@
 import { GetStaticPaths, GetStaticProps, NextPage } from 'next'
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 import { RichText } from 'prismic-dom'
 import React from 'react'
 
@@ -16,34 +17,44 @@ interface Props {
 }
 
 const TextPage: NextPage<Props> = ({ text }) => {
-  const collab = text.data.collab.slug
+  const collab = text?.data?.collab.slug
+
+  const router = useRouter()
+
+  if (router.isFallback) {
+    return <p>Carregando...</p>
+  }
 
   return (
     <Background>
       <Main>
-        <SEO title={RichText.asText(text.data.title)} />
+        <SEO
+          title={text.data?.title ? RichText.asText(text.data.title) : 'Texto'}
+        />
         <Nav>
           <Link href="/texts">
             <a>TEXTOS</a>
           </Link>
           <a href="https://rihor-portfolio.now.sh">PORTFOLIO</a>
         </Nav>
-        <Text>
-          <header style={{ marginBottom: 40 }}>
-            <h1>{RichText.asText(text.data.title)}</h1>
-            <h2>{RichText.asText(text.data.subtitle)}</h2>
-            {collab && (
-              <h3>
-                Escrito em colaboração com <span>{collab}</span>
-              </h3>
-            )}
-          </header>
-          <div
-            dangerouslySetInnerHTML={{
-              __html: RichText.asHtml(text.data.body)
-            }}
-          />
-        </Text>
+        {text.data && (
+          <Text>
+            <header style={{ marginBottom: 40 }}>
+              <h1>{RichText.asText(text.data.title)}</h1>
+              <h2>{RichText.asText(text.data.subtitle)}</h2>
+              {collab && (
+                <h3>
+                  Escrito em colaboração com <span>{collab}</span>
+                </h3>
+              )}
+            </header>
+            <div
+              dangerouslySetInnerHTML={{
+                __html: RichText.asHtml(text.data.body)
+              }}
+            />
+          </Text>
+        )}
       </Main>
     </Background>
   )
@@ -57,6 +68,8 @@ export const getStaticPaths: GetStaticPaths = async () => {
       params: { slug: slug.uid }
     }
   })
+
+  console.log(paths)
 
   return {
     paths,
