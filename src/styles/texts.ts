@@ -8,6 +8,12 @@ export const Main = styled.main`
   height: 100%;
   width: 80%;
   margin: 0 auto;
+
+  @media screen and (max-width: 800px) {
+    & {
+      width: 90%;
+    }
+  }
 `
 
 export const Nav = styled(BaseNav)`
