@@ -22,7 +22,29 @@ const TextPage: NextPage<Props> = ({ text }) => {
   const router = useRouter()
 
   if (router.isFallback) {
-    return <p>Carregando...</p>
+    return (
+      <Background>
+        <Main>
+          <SEO title={String(router.query.slug)} />
+          <Nav>
+            <Link href="/texts">
+              <a>TEXTOS</a>
+            </Link>
+            <a href="https://rihor-portfolio.now.sh">PORTFOLIO</a>
+          </Nav>
+
+          <Text>
+            <header style={{ marginBottom: 40 }}>
+              <h1>Carregando...</h1>
+              <h2>Carregando...</h2>
+            </header>
+            <div>
+              <p>Carregando...</p>
+            </div>
+          </Text>
+        </Main>
+      </Background>
+    )
   }
 
   return (
