@@ -21,7 +21,7 @@ const TextPage: NextPage<Props> = ({ text }) => {
   return (
     <Background>
       <Main>
-        <SEO title="Todos os textos" />
+        <SEO title={RichText.asText(text.data.title)} />
         <Nav>
           <Link href="/texts">
             <a>TEXTOS</a>
