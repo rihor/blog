@@ -22,7 +22,7 @@ export const Nav = styled(BaseNav)`
 
 export const Text = styled.article`
   color: #fefefe;
-  margin-bottom: 100px;
+  padding-bottom: 100px;
 
   header {
     h1 {

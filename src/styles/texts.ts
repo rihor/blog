@@ -8,6 +8,7 @@ export const Main = styled.main`
   height: 100%;
   width: 80%;
   margin: 0 auto;
+  padding-bottom: 50px;
 
   @media screen and (max-width: 800px) {
     & {
