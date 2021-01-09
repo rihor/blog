@@ -1,6 +1,14 @@
 import React, { useRef, useMemo } from 'react'
 import { useFrame, useThree } from 'react-three-fiber'
-import { InstancedMesh, Light, Group, Object3D } from 'three'
+import {
+  InstancedMesh,
+  Light,
+  Group,
+  Object3D,
+  Geometry,
+  BufferGeometry,
+  Material
+} from 'three'
 
 interface ParticlesProps {
   count: number
@@ -103,11 +111,23 @@ const Particles: React.FC<ParticlesProps> = ({ count, mouse }) => {
     mesh.current.instanceMatrix.needsUpdate = true
   })
 
+  const instancedMeshArgs = useMemo<
+    [
+      geometry: Geometry | BufferGeometry,
+      material: Material | Material[],
+      count: number
+    ]
+  >(() => [null, null, count], [])
+
+  const dodecahedronBufferGeometryArgs = useMemo<
+    [radius?: number, detail?: number]
+  >(() => [0.2, 0], [])
+
   return (
     <group ref={group}>
       <pointLight ref={light} distance={40} intensity={8} color="lightblue" />
-      <instancedMesh ref={mesh} args={[null, null, count]}>
-        <dodecahedronBufferGeometry args={[0.2, 0]} />
+      <instancedMesh ref={mesh} args={instancedMeshArgs}>
+        <dodecahedronBufferGeometry args={dodecahedronBufferGeometryArgs} />
         <meshPhongMaterial color="#040412" />
       </instancedMesh>
     </group>

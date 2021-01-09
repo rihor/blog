@@ -1,6 +1,6 @@
-import React from 'react'
-import { Canvas } from 'react-three-fiber'
-import { ReinhardToneMapping, Color } from 'three'
+import React, { useCallback, useMemo } from 'react'
+import { Canvas, CanvasContext } from 'react-three-fiber'
+import { ReinhardToneMapping, Color, Vector3 } from 'three'
 
 import Effects from './components/Effects'
 import Particles from './components/Particles'
@@ -11,19 +11,33 @@ interface EerieSceneProps {
 }
 
 const EerieScene: React.FC<EerieSceneProps> = ({ isMobile, mouse }) => {
+  const canvasArgs = useMemo(
+    () => ({
+      camera: { fov: 100, position: new Vector3(0, 0, 30) },
+      gl: { powerPreference: 'high-performance' }
+    }),
+    []
+  )
+
+  const fogArgs = useMemo<
+    [color: string | number | Color, near?: number, far?: number]
+  >(() => {
+    return ['#040412', 50, 150]
+  }, [])
+
+  const handleCreateCanvas = useCallback(async (props: CanvasContext) => {
+    props.gl.toneMapping = ReinhardToneMapping
+    props.gl.setClearColor(new Color('#03030a'))
+  }, [])
+
   return (
     <Canvas
       pixelRatio={1}
-      camera={{ fov: 100, position: [0, 0, 30] }}
-      onCreated={({ gl }) => {
-        gl.toneMapping = ReinhardToneMapping
-        gl.setClearColor(new Color('#03030a'))
-      }}
-      gl={{
-        powerPreference: 'high-performance'
-      }}
+      camera={canvasArgs.camera}
+      onCreated={handleCreateCanvas}
+      gl={canvasArgs.gl}
     >
-      <fog attach="fog" args={['#040412', 50, 150]} />
+      <fog attach="fog" args={fogArgs} />
       <pointLight distance={100} intensity={2} color="lightblue" />
       <ambientLight intensity={10} color="lightblue" />
 

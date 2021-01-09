@@ -16,6 +16,10 @@ export const Main = styled.main`
   }
 `
 
+export const Header = styled.header`
+  margin-bottom: 40px;
+`
+
 export const Nav = styled(BaseNav)`
   margin: 30px 0 50px 0;
 `

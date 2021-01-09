@@ -2,7 +2,7 @@ import { GetStaticPaths, GetStaticProps, NextPage } from 'next'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { RichText } from 'prismic-dom'
-import React from 'react'
+import React, { useMemo } from 'react'
 
 import SEO from '../../components/SEO'
 import {
@@ -10,7 +10,7 @@ import {
   requestTextBySlug,
   retrieveAllSlugs
 } from '../../lib/prismic'
-import { Background, Main, Nav, Text } from '../../styles/slug'
+import { Background, Main, Header, Nav, Text } from '../../styles/slug'
 
 interface Props {
   text: CustomDocument
@@ -34,10 +34,10 @@ const TextPage: NextPage<Props> = ({ text }) => {
           </Nav>
 
           <Text>
-            <header style={{ marginBottom: 40 }}>
+            <Header>
               <h1>Carregando...</h1>
               <h2>Carregando...</h2>
-            </header>
+            </Header>
             <div>
               <p>Carregando...</p>
             </div>
@@ -47,11 +47,19 @@ const TextPage: NextPage<Props> = ({ text }) => {
     )
   }
 
+  const bodyInnerHTML = useMemo(
+    () => ({
+      __html: RichText.asHtml(text.data.body)
+    }),
+    []
+  )
+
   return (
     <Background>
       <Main>
         <SEO
           title={text.data?.title ? RichText.asText(text.data.title) : 'Texto'}
+          description={text.data?.body ? text.data.body[0].text : 'Texto'}
         />
         <Nav>
           <Link href="/texts">
@@ -61,7 +69,7 @@ const TextPage: NextPage<Props> = ({ text }) => {
         </Nav>
         {text.data && (
           <Text>
-            <header style={{ marginBottom: 40 }}>
+            <Header>
               <h1>{RichText.asText(text.data.title)}</h1>
               <h2>{RichText.asText(text.data.subtitle)}</h2>
               {collab && (
@@ -69,12 +77,8 @@ const TextPage: NextPage<Props> = ({ text }) => {
                   Escrito em colaboração com <span>{collab}</span>
                 </h3>
               )}
-            </header>
-            <div
-              dangerouslySetInnerHTML={{
-                __html: RichText.asHtml(text.data.body)
-              }}
-            />
+            </Header>
+            <div dangerouslySetInnerHTML={bodyInnerHTML} />
           </Text>
         )}
       </Main>

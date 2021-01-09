@@ -8,7 +8,7 @@ import React, { useState } from 'react'
 import Pagination from '../components/Pagination'
 import SEO from '../components/SEO'
 import { CustomResult, request } from '../lib/prismic'
-import { Background, Main, Nav, TextsContainer } from '../styles/texts'
+import { Background, Main, Header, Nav, TextsContainer } from '../styles/texts'
 
 interface Props {
   initialResult: CustomResult
@@ -29,9 +29,9 @@ const TextsPage: NextPage<Props> = ({ initialResult }) => {
           </Link>
           <a href="https://rihor-portfolio.now.sh">PORTFOLIO</a>
         </Nav>
-        <header style={{ marginBottom: 40 }}>
-          <h1 style={{ color: 'white' }}>Todos os textos</h1>
-        </header>
+        <Header>
+          <h1>Todos os textos</h1>
+        </Header>
 
         <Pagination
           page={page}
