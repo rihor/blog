@@ -12,6 +12,7 @@
     "prettier/@typescript-eslint",
     "plugin:import/warnings",
     "plugin:import/typescript",
+    "plugin:react-perf/recommended",
     "prettier/standard",
     "prettier/react"
   ],
@@ -23,7 +24,13 @@
     "ecmaVersion": 12,
     "sourceType": "module"
   },
-  "plugins": ["react", "@typescript-eslint", "prettier", "import"],
+  "plugins": [
+    "react",
+    "@typescript-eslint",
+    "import",
+    "react-perf",
+    "prettier"
+  ],
   "rules": {
     "prettier/prettier": "error",
     "camelcase": "off",
@@ -31,7 +38,6 @@
     "react/prop-types": "off",
     // note you must disable the base rule as it can report incorrect errors
     "no-use-before-define": "off",
-    "multiline-ternary": ["error", "never"],
     "@typescript-eslint/no-use-before-define": ["error"],
     "import/order": [
       "error",
