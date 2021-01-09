@@ -33,7 +33,11 @@ const Index: NextPage<Props> = ({ isMobile }) => {
 
   return (
     <RootContainer>
-      <SEO title="Abismo do Pedro" shouldExcludeTitleSuffix />
+      <SEO
+        title="Abismo do Pedro"
+        description="Onde eu jogo meus textos."
+        shouldExcludeTitleSuffix
+      />
       <ContentContainer onMouseMove={onMouseMove}>
         <Main>
           <Nav>

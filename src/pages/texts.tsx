@@ -22,7 +22,7 @@ const TextsPage: NextPage<Props> = ({ initialResult }) => {
   return (
     <Background>
       <Main>
-        <SEO title="Todos os textos" />
+        <SEO title="Todos os textos" description="Todos os meus textos" />
         <Nav>
           <Link href="/">
             <a>LANDING PAGE</a>
