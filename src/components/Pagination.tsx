@@ -25,15 +25,39 @@ const Container = styled.div`
 
   button {
     background: rgba(255, 255, 255, 0.2);
-    padding: 5px 20px;
+    padding: 8px 16px;
     border-radius: 4px;
     color: #fff;
     font-size: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    svg {
+      flex: none;
+      width: 20px;
+      height: 20px;
+      color: #fefefe;
+    }
   }
 
   button:disabled {
     color: rgba(255, 255, 255, 0.5);
     cursor: not-allowed;
+
+    svg {
+      opacity: 0.3;
+    }
+  }
+`
+
+const ButtonGroup = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  button {
+    margin: 0 4px;
   }
 `
 
@@ -44,36 +68,110 @@ const Pagination: React.FC<Props> = ({
   prevPage,
   totalPages
 }) => {
-  const handlePrevPage = useCallback(async () => {
-    console.log(prevPage)
+  function changePageOnUrl(url: string, pageDesired: number) {
+    // example of regex find: "page=2"
+    return url.replace(/page=\d*/, `page=${pageDesired}`)
+  }
 
-    if (!prevPage) return
-
-    const response = await fetch(prevPage)
+  async function handleFetchTexts(url: string) {
+    const response = await fetch(url)
     const result = await response.json()
     setResult(result)
+  }
+
+  const handlePrevPage = useCallback(async () => {
+    if (!prevPage) return
+    await handleFetchTexts(prevPage)
   }, [prevPage])
 
   const handleNextPage = useCallback(async () => {
     if (!nextPage) return
-    const response = await fetch(nextPage)
-    const result = await response.json()
-    setResult(result)
+    await handleFetchTexts(nextPage)
   }, [nextPage])
+
+  const handleLastPage = useCallback(async () => {
+    if (!nextPage) return
+    const pageToSearch = changePageOnUrl(nextPage, totalPages)
+    await handleFetchTexts(pageToSearch)
+  }, [nextPage])
+
+  const handleFirstPage = useCallback(async () => {
+    if (!prevPage) return
+    const pageToSearch = changePageOnUrl(prevPage, 1)
+    await handleFetchTexts(pageToSearch)
+  }, [prevPage])
 
   return (
     <Container>
-      <button disabled={!prevPage} onClick={handlePrevPage}>
-        &lsaquo;
-      </button>
+      <ButtonGroup>
+        <button disabled={page <= 1} onClick={handleFirstPage}>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M11 19l-7-7 7-7m8 14l-7-7 7-7"
+            />
+          </svg>
+        </button>
+        <button disabled={!prevPage} onClick={handlePrevPage}>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M15 19l-7-7 7-7"
+            />
+          </svg>
+        </button>
+      </ButtonGroup>
       <div>
         <span>
           {page} / {totalPages}
         </span>
       </div>
-      <button disabled={!nextPage} onClick={handleNextPage}>
-        &rsaquo;
-      </button>
+      <ButtonGroup>
+        <button disabled={!nextPage} onClick={handleNextPage}>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M9 5l7 7-7 7"
+            />
+          </svg>
+        </button>
+        <button disabled={!nextPage} onClick={handleLastPage}>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M13 5l7 7-7 7M5 5l7 7-7 7"
+            />
+          </svg>
+        </button>
+      </ButtonGroup>
     </Container>
   )
 }
