@@ -6,15 +6,15 @@
     "jest": true
   },
   "extends": [
-    "plugin:react/recommended",
     "standard",
     "plugin:@typescript-eslint/recommended",
-    "prettier/@typescript-eslint",
+    "plugin:import/errors",
     "plugin:import/warnings",
     "plugin:import/typescript",
-    "plugin:react-perf/recommended",
-    "prettier/standard",
-    "prettier/react"
+    "prettier",
+    "prettier/@typescript-eslint",
+    "prettier/react",
+    "plugin:react-perf/recommended"
   ],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
@@ -28,8 +28,8 @@
     "react",
     "@typescript-eslint",
     "import",
-    "react-perf",
-    "prettier"
+    "prettier",
+    "react-perf"
   ],
   "rules": {
     "prettier/prettier": "error",
