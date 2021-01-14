@@ -61,7 +61,9 @@ const Index: NextPage<Props> = ({ isMobile }) => {
 }
 
 Index.getInitialProps = async ({ req }) => {
-  const userAgent = req ? req.headers['user-agent'] : navigator.userAgent
+  const userAgent = (req
+    ? req.headers['user-agent']
+    : navigator.userAgent) as string
 
   const isMobile = /iPhone|iPad|iPod|Android|Mobile|Phone/i.test(userAgent)
 

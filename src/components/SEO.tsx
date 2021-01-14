@@ -19,7 +19,7 @@ const SEO: React.FC<SEOProps> = ({
   const pageTitle = `${title} ${!shouldExcludeTitleSuffix ? '| Abismo' : ''}`
   const pageImage = image
     ? `${process.env.NEXT_PUBLIC_SITE_URL}/${image}`
-    : null
+    : undefined
 
   return (
     <Head>

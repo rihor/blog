@@ -28,9 +28,9 @@ interface Particle {
 }
 
 const Particles: React.FC<ParticlesProps> = ({ count, mouse }) => {
-  const mesh = useRef<InstancedMesh>()
-  const group = useRef<Group>()
-  const light = useRef<Light>()
+  const mesh = useRef<InstancedMesh>(null)
+  const group = useRef<Group>(null)
+  const light = useRef<Light>(null)
   const { size, viewport } = useThree()
   const aspect = size.width / viewport.width
 
@@ -63,7 +63,7 @@ const Particles: React.FC<ParticlesProps> = ({ count, mouse }) => {
   // The innards of this hook will run every frame
   useFrame(() => {
     // Makes the light follow the mouse
-    light.current.position.set(
+    light!.current!.position.set(
       mouse.current[0] / aspect,
       -mouse.current[1] / aspect,
       0
@@ -105,10 +105,10 @@ const Particles: React.FC<ParticlesProps> = ({ count, mouse }) => {
       dummy.updateMatrix()
 
       // And apply the matrix to the instanced item
-      mesh.current.setMatrixAt(index, dummy.matrix)
+      mesh!.current!.setMatrixAt(index, dummy.matrix)
     })
 
-    mesh.current.instanceMatrix.needsUpdate = true
+    mesh!.current!.instanceMatrix.needsUpdate = true
   })
 
   const instancedMeshArgs = useMemo<
@@ -117,7 +117,7 @@ const Particles: React.FC<ParticlesProps> = ({ count, mouse }) => {
       material: Material | Material[],
       count: number
     ]
-  >(() => [null, null, count], [])
+  >(() => [new Geometry(), new Material(), count], [])
 
   const dodecahedronBufferGeometryArgs = useMemo<
     [radius?: number, detail?: number]

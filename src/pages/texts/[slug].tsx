@@ -104,9 +104,9 @@ export const getStaticPaths: GetStaticPaths = async () => {
 }
 
 export const getStaticProps: GetStaticProps<Props> = async ({ params }) => {
-  const { slug } = params
+  const slug = String(params?.slug)
 
-  const textResult = await requestTextBySlug(String(slug))
+  const textResult = await requestTextBySlug(slug)
 
   return {
     props: {

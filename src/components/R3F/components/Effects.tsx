@@ -18,7 +18,7 @@ const Effects: React.FC<EffectsProps> = ({ isMobile }) => {
 
   return (
     <EffectComposer>
-      {!isMobile && (
+      {!isMobile ? (
         <DepthOfField
           focusDistance={0.181}
           focalLength={0.3464}
@@ -26,9 +26,15 @@ const Effects: React.FC<EffectsProps> = ({ isMobile }) => {
           height={480}
           blur={0.49}
         />
+      ) : (
+        <></>
       )}
-      {!isMobile && <Vignette opacity={0.6} />}
-      {!isMobile && <ChromaticAberration offset={chromaticAberrationOffset} />}
+      {!isMobile ? <Vignette opacity={0.6} /> : <></>}
+      {!isMobile ? (
+        <ChromaticAberration offset={chromaticAberrationOffset} />
+      ) : (
+        <></>
+      )}
       <Bloom luminanceThreshold={0.5} />
     </EffectComposer>
   )
