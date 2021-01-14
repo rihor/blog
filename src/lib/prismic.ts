@@ -97,6 +97,7 @@ export const searchForTexts = async (
     result = await getAllTexts({})
   } else {
     result = await request([
+      Prismic.Predicates.at('document.type', 'text'),
       Prismic.Predicates.fulltext('document', textToSearch)
     ])
   }
