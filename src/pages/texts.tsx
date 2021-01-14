@@ -2,12 +2,12 @@ import 'dayjs/locale/pt-br'
 import dayjs from 'dayjs'
 import { NextPage } from 'next'
 import Link from 'next/link'
-import Prismic from 'prismic-javascript'
 import React, { useState } from 'react'
 
 import Pagination from '../components/Pagination'
+import SearchBar from '../components/SearchBar'
 import SEO from '../components/SEO'
-import { CustomResult, request } from '../lib/prismic'
+import { CustomResult, searchForTexts, getAllTexts } from '../lib/prismic'
 import { Background, Main, Header, Nav, TextsContainer } from '../styles/texts'
 
 interface Props {
@@ -18,6 +18,11 @@ const TextsPage: NextPage<Props> = ({ initialResult }) => {
   const [result, setResult] = useState<CustomResult>(initialResult)
 
   const { page, prev_page, next_page, total_pages, results: texts } = result
+
+  async function handleSearchText(text?: string) {
+    const result = await searchForTexts(text)
+    setResult(result)
+  }
 
   return (
     <Background>
@@ -33,6 +38,8 @@ const TextsPage: NextPage<Props> = ({ initialResult }) => {
           <h1>Todos os textos</h1>
         </Header>
 
+        <SearchBar searchTextsWith={handleSearchText} />
+
         <Pagination
           page={page}
           totalPages={total_pages}
@@ -45,7 +52,9 @@ const TextsPage: NextPage<Props> = ({ initialResult }) => {
             <Link key={text.id} href={`texts/${text.slugs[0]}`}>
               <article>
                 <h1>{text.data.title[0].text}</h1>
-                <h2>{text.data.subtitle[0].text}</h2>
+                {Array.isArray(text.data.subtitle) && (
+                  <h2>{text.data.subtitle[0].text}</h2>
+                )}
                 <p>{text.data.body[0].text}</p>
                 <time>{dayjs(text.data.date).format('DD/MM/YYYY')}</time>
               </article>
@@ -65,10 +74,7 @@ const TextsPage: NextPage<Props> = ({ initialResult }) => {
 }
 
 TextsPage.getInitialProps = async () => {
-  const initialResult = await request(
-    [Prismic.Predicates.at('document.type', 'text')],
-    { pageSize: 10, page: 1, orderings: '[my.text.date desc]' }
-  )
+  const initialResult = await getAllTexts({})
 
   return { initialResult }
 }

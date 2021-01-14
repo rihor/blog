@@ -37,10 +37,15 @@ export interface CustomResult extends ApiSearchResponse {
   results: CustomDocument[]
 }
 
+interface GetAllTextsInterface {
+  pageSize?: number
+  page?: number
+}
+
 const apiEndpoint = 'https://rihor-blog.cdn.prismic.io/api/v2'
 
 const cmsClient = (req = null): DefaultClient => {
-  const options = req ? { req } : null
+  const options = req ? { req } : undefined
 
   return Prismic.client(apiEndpoint, options)
 }
@@ -69,4 +74,32 @@ export const requestTextBySlug = async (
   const textResult = await cmsClient().getByUID('text', slug, {})
 
   return textResult
+}
+
+export const getAllTexts = async ({
+  pageSize = 10,
+  page = 1
+}: GetAllTextsInterface): Promise<ApiSearchResponse> => {
+  const result = await request(
+    [Prismic.Predicates.at('document.type', 'text')],
+    { pageSize, page, orderings: '[my.text.date desc]' }
+  )
+
+  return result
+}
+
+export const searchForTexts = async (
+  textToSearch?: string
+): Promise<ApiSearchResponse> => {
+  let result: ApiSearchResponse
+
+  if (!textToSearch) {
+    result = await getAllTexts({})
+  } else {
+    result = await request([
+      Prismic.Predicates.fulltext('document', textToSearch)
+    ])
+  }
+
+  return result
 }
