@@ -19,34 +19,6 @@ interface Props {
 const TextPage: NextPage<Props> = ({ text }) => {
   const collab = text?.data?.collab.slug
 
-  const router = useRouter()
-
-  if (router.isFallback) {
-    return (
-      <Background>
-        <Main>
-          <SEO title={String(router.query.slug)} />
-          <Nav>
-            <Link href="/texts">
-              <a>TEXTOS</a>
-            </Link>
-            <a href="https://rihor-portfolio.now.sh">PORTFOLIO</a>
-          </Nav>
-
-          <Text>
-            <Header>
-              <h1>Carregando...</h1>
-              <h2>Carregando...</h2>
-            </Header>
-            <div>
-              <p>Carregando...</p>
-            </div>
-          </Text>
-        </Main>
-      </Background>
-    )
-  }
-
   const bodyInnerHTML = useMemo(
     () => ({
       __html: RichText.asHtml(text.data.body)
@@ -99,7 +71,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
   return {
     paths,
-    fallback: true
+    fallback: 'blocking'
   }
 }
 
@@ -112,7 +84,7 @@ export const getStaticProps: GetStaticProps<Props> = async ({ params }) => {
     props: {
       text: textResult
     },
-    revalidate: 60
+    revalidate: 1
   }
 }
 
