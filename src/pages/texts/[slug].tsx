@@ -1,8 +1,7 @@
 import { GetStaticPaths, GetStaticProps, NextPage } from 'next'
 import Link from 'next/link'
-import { useRouter } from 'next/router'
 import { RichText } from 'prismic-dom'
-import React, { useMemo } from 'react'
+import { useMemo } from 'react'
 
 import SEO from '../../components/SEO'
 import {

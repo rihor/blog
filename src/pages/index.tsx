@@ -1,6 +1,6 @@
 import { NextPage } from 'next'
 import Link from 'next/link'
-import React, { useCallback, useRef } from 'react'
+import { useCallback, useRef } from 'react'
 
 import EerieScene from '../components/R3F/EerieScene'
 import SEO from '../components/SEO'

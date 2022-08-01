@@ -1,4 +1,4 @@
-import React, { useRef, useMemo } from 'react'
+import { useRef, useMemo, MutableRefObject } from 'react'
 import { useFrame, useThree } from 'react-three-fiber'
 import {
   InstancedMesh,
@@ -12,7 +12,7 @@ import {
 
 interface ParticlesProps {
   count: number
-  mouse: any
+  mouse: MutableRefObject<number[]>
 }
 
 interface Particle {
@@ -63,7 +63,7 @@ const Particles: React.FC<ParticlesProps> = ({ count, mouse }) => {
   // The innards of this hook will run every frame
   useFrame(() => {
     // Makes the light follow the mouse
-    light!.current!.position.set(
+    light.current?.position.set(
       mouse.current[0] / aspect,
       -mouse.current[1] / aspect,
       0
@@ -105,10 +105,12 @@ const Particles: React.FC<ParticlesProps> = ({ count, mouse }) => {
       dummy.updateMatrix()
 
       // And apply the matrix to the instanced item
-      mesh!.current!.setMatrixAt(index, dummy.matrix)
+      mesh.current?.setMatrixAt(index, dummy.matrix)
     })
 
-    mesh!.current!.instanceMatrix.needsUpdate = true
+    if (mesh.current) {
+      mesh.current.instanceMatrix.needsUpdate = true
+    }
   })
 
   const instancedMeshArgs = useMemo<

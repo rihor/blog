@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from 'react'
+import { useCallback, useMemo } from 'react'
 import { Canvas, CanvasContext } from 'react-three-fiber'
 import { ReinhardToneMapping, Color, Vector3 } from 'three'
 
