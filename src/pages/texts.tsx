@@ -8,7 +8,7 @@ import Pagination from '../components/Pagination'
 import SearchBar from '../components/SearchBar'
 import SEO from '../components/SEO'
 import { CustomResult, searchForTexts, getAllTexts } from '../lib/prismic'
-import { Background, Main, Header, Nav, TextsContainer } from '../styles/texts'
+import styles from '../styles/Texts.module.scss'
 
 interface Props {
   initialResult: CustomResult
@@ -25,18 +25,18 @@ const TextsPage: NextPage<Props> = ({ initialResult }) => {
   }
 
   return (
-    <Background>
-      <Main>
+    <div>
+      <main className={styles.main}>
         <SEO title="Todos os textos" description="Todos os meus textos" />
-        <Nav>
+        <nav className={styles.nav}>
           <Link href="/">
             <a>LANDING PAGE</a>
           </Link>
           <a href="https://rihor-portfolio.now.sh">PORTFOLIO</a>
-        </Nav>
-        <Header>
+        </nav>
+        <header className={styles.header}>
           <h1>Todos os textos</h1>
-        </Header>
+        </header>
 
         <SearchBar searchTextsWith={handleSearchText} />
 
@@ -47,7 +47,7 @@ const TextsPage: NextPage<Props> = ({ initialResult }) => {
           nextPage={next_page}
           setResult={setResult}
         />
-        <TextsContainer>
+        <div className={styles.text}>
           {texts.map(text => (
             <Link key={text.id} href={`texts/${text.slugs[0]}`}>
               <article>
@@ -60,7 +60,7 @@ const TextsPage: NextPage<Props> = ({ initialResult }) => {
               </article>
             </Link>
           ))}
-        </TextsContainer>
+        </div>
         <Pagination
           page={page}
           totalPages={total_pages}
@@ -68,8 +68,8 @@ const TextsPage: NextPage<Props> = ({ initialResult }) => {
           nextPage={next_page}
           setResult={setResult}
         />
-      </Main>
-    </Background>
+      </main>
+    </div>
   )
 }
 

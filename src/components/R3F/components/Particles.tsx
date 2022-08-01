@@ -1,18 +1,19 @@
-import React, { useRef, useMemo } from 'react'
-import { useFrame, useThree } from 'react-three-fiber'
+import { useRef, useMemo, MutableRefObject } from 'react'
 import {
   InstancedMesh,
-  Light,
+  PointLight,
   Group,
   Object3D,
-  Geometry,
   BufferGeometry,
+  ShapeGeometry,
   Material
 } from 'three'
 
+import { useFrame, useThree } from '@react-three/fiber'
+
 interface ParticlesProps {
   count: number
-  mouse: any
+  mouse: MutableRefObject<number[]>
 }
 
 interface Particle {
@@ -30,7 +31,7 @@ interface Particle {
 const Particles: React.FC<ParticlesProps> = ({ count, mouse }) => {
   const mesh = useRef<InstancedMesh>(null)
   const group = useRef<Group>(null)
-  const light = useRef<Light>(null)
+  const light = useRef<PointLight>(null)
   const { size, viewport } = useThree()
   const aspect = size.width / viewport.width
 
@@ -63,7 +64,7 @@ const Particles: React.FC<ParticlesProps> = ({ count, mouse }) => {
   // The innards of this hook will run every frame
   useFrame(() => {
     // Makes the light follow the mouse
-    light!.current!.position.set(
+    light.current?.position.set(
       mouse.current[0] / aspect,
       -mouse.current[1] / aspect,
       0
@@ -105,19 +106,21 @@ const Particles: React.FC<ParticlesProps> = ({ count, mouse }) => {
       dummy.updateMatrix()
 
       // And apply the matrix to the instanced item
-      mesh!.current!.setMatrixAt(index, dummy.matrix)
+      mesh.current?.setMatrixAt(index, dummy.matrix)
     })
 
-    mesh!.current!.instanceMatrix.needsUpdate = true
+    if (mesh.current) {
+      mesh.current.instanceMatrix.needsUpdate = true
+    }
   })
 
   const instancedMeshArgs = useMemo<
     [
-      geometry: Geometry | BufferGeometry,
+      geometry: ShapeGeometry | BufferGeometry,
       material: Material | Material[],
       count: number
     ]
-  >(() => [new Geometry(), new Material(), count], [])
+  >(() => [new ShapeGeometry(), new Material(), count], [])
 
   const dodecahedronBufferGeometryArgs = useMemo<
     [radius?: number, detail?: number]

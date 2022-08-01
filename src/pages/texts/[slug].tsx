@@ -1,8 +1,7 @@
 import { GetStaticPaths, GetStaticProps, NextPage } from 'next'
 import Link from 'next/link'
-import { useRouter } from 'next/router'
 import { RichText } from 'prismic-dom'
-import React, { useMemo } from 'react'
+import { useMemo } from 'react'
 
 import SEO from '../../components/SEO'
 import {
@@ -10,7 +9,7 @@ import {
   requestTextBySlug,
   retrieveAllSlugs
 } from '../../lib/prismic'
-import { Background, Main, Header, Nav, Text } from '../../styles/slug'
+import styles from '../../styles/Slug.module.scss'
 
 interface Props {
   text: CustomDocument
@@ -27,21 +26,21 @@ const TextPage: NextPage<Props> = ({ text }) => {
   )
 
   return (
-    <Background>
-      <Main>
+    <div>
+      <main className={styles.main}>
         <SEO
           title={text.data?.title ? RichText.asText(text.data.title) : 'Texto'}
           description={text.data?.body ? text.data.body[0].text : 'Texto'}
         />
-        <Nav>
+        <nav className={styles.nav}>
           <Link href="/texts">
             <a>TEXTOS</a>
           </Link>
           <a href="https://rihor-portfolio.now.sh">PORTFOLIO</a>
-        </Nav>
+        </nav>
         {text.data && (
-          <Text>
-            <Header>
+          <article className={styles.text}>
+            <header className={styles.header}>
               <h1>{RichText.asText(text.data.title)}</h1>
               <h2>{RichText.asText(text.data.subtitle)}</h2>
               {collab && (
@@ -49,12 +48,12 @@ const TextPage: NextPage<Props> = ({ text }) => {
                   Escrito em colaboração com <span>{collab}</span>
                 </h3>
               )}
-            </Header>
+            </header>
             <div dangerouslySetInnerHTML={bodyInnerHTML} />
-          </Text>
+          </article>
         )}
-      </Main>
-    </Background>
+      </main>
+    </div>
   )
 }
 

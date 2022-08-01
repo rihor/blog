@@ -1,16 +1,10 @@
 import { NextPage } from 'next'
 import Link from 'next/link'
-import React, { useCallback, useRef } from 'react'
+import { useCallback, useRef } from 'react'
 
 import EerieScene from '../components/R3F/EerieScene'
 import SEO from '../components/SEO'
-import {
-  RootContainer,
-  ContentContainer,
-  Header,
-  Main,
-  Nav
-} from '../styles/home'
+import styles from '../styles/Home.module.scss'
 
 interface MouseMoveArgs {
   clientX: number
@@ -32,19 +26,19 @@ const Index: NextPage<Props> = ({ isMobile }) => {
   }, [])
 
   return (
-    <RootContainer>
+    <div className={styles.root}>
       <SEO
         title="Abismo do Pedro"
         description="Onde eu jogo meus textos."
         shouldExcludeTitleSuffix
       />
-      <ContentContainer onMouseMove={onMouseMove}>
-        <Main>
-          <Nav>
+      <section className={styles.content} onMouseMove={onMouseMove}>
+        <main className={styles.main}>
+          <nav className={styles.nav}>
             <a href="https://rihor-portfolio.now.sh/">PORTFOLIO</a>
-          </Nav>
+          </nav>
 
-          <Header>
+          <header className={styles.header}>
             <h1>Abismo</h1>
 
             <button>
@@ -52,18 +46,18 @@ const Index: NextPage<Props> = ({ isMobile }) => {
                 <a>Meus textos</a>
               </Link>
             </button>
-          </Header>
-        </Main>
-      </ContentContainer>
+          </header>
+        </main>
+      </section>
       <EerieScene isMobile={isMobile} mouse={mouse} />
-    </RootContainer>
+    </div>
   )
 }
 
 Index.getInitialProps = async ({ req }) => {
-  const userAgent = (req
-    ? req.headers['user-agent']
-    : navigator.userAgent) as string
+  const userAgent = (
+    req ? req.headers['user-agent'] : navigator.userAgent
+  ) as string
 
   const isMobile = /iPhone|iPad|iPod|Android|Mobile|Phone/i.test(userAgent)
 

@@ -32,7 +32,8 @@
     "react-perf"
   ],
   "rules": {
-    "prettier/prettier": "error",
+    "import/no-unresolved": "warn",
+    "prettier/prettier": "warn",
     "camelcase": "off",
     "space-before-function-paren": "off",
     "react/prop-types": "off",

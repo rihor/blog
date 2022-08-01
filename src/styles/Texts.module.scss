@@ -1,10 +1,7 @@
-import styled from 'styled-components'
+// import { Nav as BaseNav } from './sharedStyles'
+@import './SharedStyles.module.scss';
 
-import { Nav as BaseNav } from './sharedStyles'
-
-export const Background = styled.div``
-
-export const Main = styled.main`
+.main {
   height: 100%;
   width: 80%;
   margin: 0 auto;
@@ -15,21 +12,23 @@ export const Main = styled.main`
       width: 90%;
     }
   }
-`
+}
 
-export const Header = styled.header`
+.header {
   margin-bottom: 40px;
 
   h1 {
     color: #fefefe;
   }
-`
+}
 
-export const Nav = styled(BaseNav)`
+.nav {
+  @extend .base_nav;
+
   margin: 30px 0 30px 0;
-`
+}
 
-export const TextsContainer = styled.div`
+.text {
   column-count: 3;
   column-gap: 10px;
 
@@ -76,4 +75,4 @@ export const TextsContainer = styled.div`
       column-count: 1;
     }
   }
-`
+}

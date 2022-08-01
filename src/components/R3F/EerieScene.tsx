@@ -1,6 +1,7 @@
-import React, { useCallback, useMemo } from 'react'
-import { Canvas, CanvasContext } from 'react-three-fiber'
+import { useCallback, useMemo } from 'react'
 import { ReinhardToneMapping, Color, Vector3 } from 'three'
+
+import { Canvas, RootState } from '@react-three/fiber'
 
 import Effects from './components/Effects'
 import Particles from './components/Particles'
@@ -25,14 +26,13 @@ const EerieScene: React.FC<EerieSceneProps> = ({ isMobile, mouse }) => {
     return ['#040412', 50, 150]
   }, [])
 
-  const handleCreateCanvas = useCallback(async (props: CanvasContext) => {
+  const handleCreateCanvas = useCallback(async (props: RootState) => {
     props.gl.toneMapping = ReinhardToneMapping
     props.gl.setClearColor(new Color('#03030a'))
   }, [])
 
   return (
     <Canvas
-      pixelRatio={1}
       camera={canvasArgs.camera}
       onCreated={handleCreateCanvas}
       gl={canvasArgs.gl}

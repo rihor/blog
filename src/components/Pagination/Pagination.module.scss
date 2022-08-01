@@ -1,0 +1,49 @@
+.pagination {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 22px 0;
+  color: #fff;
+
+  span {
+    font-family: 'Work Sans', Arial, Helvetica, sans-serif;
+    font-size: 18px;
+  }
+
+  button {
+    background: rgba(255, 255, 255, 0.2);
+    padding: 8px 16px;
+    border-radius: 4px;
+    color: #fff;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    svg {
+      flex: none;
+      width: 20px;
+      height: 20px;
+      color: #fefefe;
+    }
+  }
+
+  button:disabled {
+    color: rgba(255, 255, 255, 0.5);
+    cursor: not-allowed;
+
+    svg {
+      opacity: 0.3;
+    }
+  }
+}
+
+.button_group {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  button {
+    margin: 0 4px;
+  }
+}
