@@ -1,7 +1,7 @@
 import { useCallback } from 'react'
-import styled from 'styled-components'
 
-import { CustomResult } from '../lib/prismic'
+import { CustomResult } from '../../lib/prismic'
+import styles from './Pagination.module.scss'
 
 interface Props {
   setResult(texts: React.SetStateAction<CustomResult>): void
@@ -10,56 +10,6 @@ interface Props {
   prevPage: null | string
   totalPages: number
 }
-
-const Container = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin: 22px 0;
-  color: #fff;
-
-  span {
-    font-family: 'Work Sans', Arial, Helvetica, sans-serif;
-    font-size: 18px;
-  }
-
-  button {
-    background: rgba(255, 255, 255, 0.2);
-    padding: 8px 16px;
-    border-radius: 4px;
-    color: #fff;
-    font-size: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    svg {
-      flex: none;
-      width: 20px;
-      height: 20px;
-      color: #fefefe;
-    }
-  }
-
-  button:disabled {
-    color: rgba(255, 255, 255, 0.5);
-    cursor: not-allowed;
-
-    svg {
-      opacity: 0.3;
-    }
-  }
-`
-
-const ButtonGroup = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  button {
-    margin: 0 4px;
-  }
-`
 
 const Pagination: React.FC<Props> = ({
   setResult,
@@ -102,8 +52,8 @@ const Pagination: React.FC<Props> = ({
   }, [prevPage])
 
   return (
-    <Container>
-      <ButtonGroup>
+    <div className={styles.pagination}>
+      <div className={styles.button_group}>
         <button disabled={page <= 1} onClick={handleFirstPage}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -134,13 +84,13 @@ const Pagination: React.FC<Props> = ({
             />
           </svg>
         </button>
-      </ButtonGroup>
+      </div>
       <div>
         <span>
           {page} / {totalPages}
         </span>
       </div>
-      <ButtonGroup>
+      <div className={styles.button_group}>
         <button disabled={!nextPage} onClick={handleNextPage}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -171,8 +121,8 @@ const Pagination: React.FC<Props> = ({
             />
           </svg>
         </button>
-      </ButtonGroup>
-    </Container>
+      </div>
+    </div>
   )
 }
 

@@ -1,14 +1,15 @@
 import { useRef, useMemo, MutableRefObject } from 'react'
-import { useFrame, useThree } from 'react-three-fiber'
 import {
   InstancedMesh,
-  Light,
+  PointLight,
   Group,
   Object3D,
-  Geometry,
   BufferGeometry,
+  ShapeGeometry,
   Material
 } from 'three'
+
+import { useFrame, useThree } from '@react-three/fiber'
 
 interface ParticlesProps {
   count: number
@@ -30,7 +31,7 @@ interface Particle {
 const Particles: React.FC<ParticlesProps> = ({ count, mouse }) => {
   const mesh = useRef<InstancedMesh>(null)
   const group = useRef<Group>(null)
-  const light = useRef<Light>(null)
+  const light = useRef<PointLight>(null)
   const { size, viewport } = useThree()
   const aspect = size.width / viewport.width
 
@@ -115,11 +116,11 @@ const Particles: React.FC<ParticlesProps> = ({ count, mouse }) => {
 
   const instancedMeshArgs = useMemo<
     [
-      geometry: Geometry | BufferGeometry,
+      geometry: ShapeGeometry | BufferGeometry,
       material: Material | Material[],
       count: number
     ]
-  >(() => [new Geometry(), new Material(), count], [])
+  >(() => [new ShapeGeometry(), new Material(), count], [])
 
   const dodecahedronBufferGeometryArgs = useMemo<
     [radius?: number, detail?: number]

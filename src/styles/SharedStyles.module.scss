@@ -1,6 +1,4 @@
-import styled from 'styled-components'
-
-export const Nav = styled.nav`
+.base_nav {
   display: flex;
   justify-content: flex-end;
   align-items: center;
@@ -15,4 +13,4 @@ export const Nav = styled.nav`
     font-weight: bold;
     color: #fafffa;
   }
-`
+}
