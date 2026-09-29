@@ -1,181 +1,177 @@
-// import Eerie from '../components/R3F/EerieScene'
-// import { Nav as BaseNav } from './sharedStyles'
-@use './SharedStyles.module.scss';
+$ink: #e9ece6;
+$ink-dim: rgba(233, 236, 230, 0.62);
+$ink-faint: rgba(233, 236, 230, 0.38);
+$focus: #7fc4ff;
 
 .root {
   position: relative;
   width: 100vw;
   height: 100vh;
+  height: 100dvh;
+  overflow: hidden;
+  color: $ink;
+  // Backdrop while the scene loads, and the fallback without WebGL
+  background: radial-gradient(
+    ellipse 90% 55% at 50% -10%,
+    #1a2740 0%,
+    #060b16 50%,
+    #010207 100%
+  );
 
-  > div {
-    position: absolute;
+  ::selection {
+    color: #03101d;
+    background: rgba(127, 196, 255, 0.85);
+  }
+}
+
+.stage {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 2.4s cubic-bezier(0.16, 1, 0.3, 1);
+
+  &[data-ready='true'] {
+    opacity: 1;
   }
 
   canvas {
-    width: 100vw;
-    height: 100vh;
-    top: 0;
-    left: 0;
-    image-rendering: crisp-edges;
-    background: #1b1b36;
+    display: block;
+    width: 100%;
+    height: 100%;
+    touch-action: none;
   }
 }
 
-// export const RootContainer = styled.div`
-//   position: relative;
-//   width: 100vw;
-//   height: 100vh;
-
-//   > div {
-//     position: absolute;
-//   }
-
-//   canvas {
-//     width: 100vw;
-//     height: 100vh;
-//     top: 0;
-//     left: 0;
-//     image-rendering: crisp-edges;
-//     background: #1b1b36;
-//   }
-// `
-
-.content {
-  z-index: 1;
+.overlay {
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
+  inset: 0;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  padding: clamp(20px, 3.2vw, 40px) clamp(20px, 5vw, 72px);
+  // The scene takes the pointer; only real controls opt back in
+  pointer-events: none;
+
+  a {
+    pointer-events: auto;
+  }
 }
 
-// export const ContentContainer = styled.section`
-//   z-index: 1;
-//   position: absolute;
-//   top: 0;
-//   left: 0;
-//   width: 100vw;
-//   height: 100vh;
-// `
+.nav a {
+  font-family: 'Work Sans', Arial, Helvetica, sans-serif;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: $ink-dim;
+  text-decoration: none;
+  padding: 6px 0;
+  transition: color 0.4s ease;
 
-.main {
-  height: 100%;
-  width: 80%;
-  margin: 0 auto;
+  &:hover {
+    color: $ink;
+  }
+
+  &:focus-visible {
+    outline: 1px solid $focus;
+    outline-offset: 6px;
+    border-radius: 2px;
+  }
 }
-
-// export const Main = styled.main`
-//   height: 100%;
-//   width: 80%;
-//   margin: 0 auto;
-// `
-
-.nav {
-  @extend .base_nav;
-
-  padding: 30px 0 30vh 0;
-}
-
-// export const Nav = styled(BaseNav)`
-//   padding: 30px 0 30vh 0;
-// `
 
 .header {
+  align-self: center;
   user-select: none;
 
   h1 {
-    font-size: clamp(1.75rem, 20vw, 8em);
-    font-weight: bold;
-    line-height: 1em;
-    color: #fafffa;
-  }
-
-  button {
-    background: #fafffa;
-    border-radius: 4px;
-    padding: 4px 8px;
-    margin-top: 10px;
-
-    a {
-      font-size: clamp(12px, 12px + 0.5em, 20px);
-      letter-spacing: 1px;
-      color: #000;
-    }
-
-    @media screen and (max-width: 600px) {
-      & {
-        position: absolute;
-        bottom: 2%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-
-        width: 90%;
-        height: 40px;
-        margin: 0 5px;
-
-        a {
-          font-weight: bold;
-        }
-      }
-    }
+    font-family: 'Work Sans', Arial, Helvetica, sans-serif;
+    font-size: clamp(3.25rem, 13vw, 6rem);
+    font-weight: 700;
+    line-height: 0.92;
+    letter-spacing: -0.03em;
+    color: $ink;
+    text-shadow: 0 2px 30px rgba(0, 0, 0, 0.6);
   }
 }
 
-// export const Header = styled.header`
-//   user-select: none;
+.cta {
+  display: inline-block;
+  margin-top: 1.75rem;
+  padding: 0.7rem 1.3rem 0.75rem;
+  font-family: 'Work Sans', Arial, Helvetica, sans-serif;
+  font-size: 0.9375rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: #0c0c0b;
+  background: $ink;
+  border-radius: 4px;
+  text-decoration: none;
+  transition:
+    background 0.35s ease,
+    transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
 
-//   h1 {
-//     font-size: clamp(1.75rem, 20vw, 8em);
-//     font-weight: bold;
-//     line-height: 1em;
-//     color: #fafffa;
-//   }
+  &:hover {
+    background: #fff;
+    transform: translateY(-1px);
+  }
 
-//   button {
-//     background: #fafffa;
-//     border-radius: 4px;
-//     padding: 4px 8px;
-//     margin-top: 10px;
-
-//     a {
-//       font-size: clamp(12px, 12px + 0.5em, 20px);
-//       letter-spacing: 1px;
-//       color: #000;
-//     }
-
-//     @media screen and (max-width: 600px) {
-//       & {
-//         position: absolute;
-//         bottom: 2%;
-//         left: 50%;
-//         transform: translate(-50%, -50%);
-
-//         width: 90%;
-//         height: 40px;
-//         margin: 0 5px;
-
-//         a {
-//           font-weight: bold;
-//         }
-//       }
-//     }
-//   }
-// `
-
-.eerie_scene {
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 0;
-  width: 100%;
-  height: 200px;
+  &:focus-visible {
+    outline: 2px solid $focus;
+    outline-offset: 4px;
+  }
 }
 
-// export const EerieScene = styled(Eerie)`
-//   position: absolute;
-//   top: 0;
-//   left: 0;
-//   z-index: 0;
-//   width: 100%;
-//   height: 200px;
-// `
+.hint {
+  font-family: 'Markazi Text', 'Times New Roman', Times, serif;
+  font-size: 1.0625rem;
+  font-style: italic;
+  color: $ink-faint;
+  animation: hint-fade 1.8s 2.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+// Only one hint shows: touch screens have no cursor to move
+.hintTouch {
+  display: none;
+}
+
+@media (hover: none) {
+  .hintPointer {
+    display: none;
+  }
+
+  .hintTouch {
+    display: inline;
+  }
+}
+
+@keyframes hint-fade {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+}
+
+@media (max-width: 640px) {
+  .header {
+    align-self: end;
+    padding-bottom: 12vh;
+  }
+
+  .cta {
+    display: block;
+    text-align: center;
+  }
+
+  .hint {
+    font-size: 1rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .stage {
+    transition-duration: 0.6s;
+  }
+
+  .hint {
+    animation: none;
+  }
+}
