@@ -1,13 +1,14 @@
 import 'dayjs/locale/pt-br'
 import dayjs from 'dayjs'
-import { NextPage } from 'next'
+import type { NextPage } from 'next'
 import Link from 'next/link'
 import React, { useState } from 'react'
 
 import Pagination from '../components/Pagination'
 import SearchBar from '../components/SearchBar'
 import SEO from '../components/SEO'
-import { CustomResult, searchForTexts, getAllTexts } from '../lib/prismic'
+import type { CustomResult } from '../lib/prismic'
+import { searchForTexts, getAllTexts } from '../lib/prismic'
 import styles from '../styles/Texts.module.scss'
 
 interface Props {
@@ -29,9 +30,7 @@ const TextsPage: NextPage<Props> = ({ initialResult }) => {
       <main className={styles.main}>
         <SEO title="Todos os textos" description="Todos os meus textos" />
         <nav className={styles.nav}>
-          <Link href="/">
-            <a>LANDING PAGE</a>
-          </Link>
+          <Link href="/">LANDING PAGE</Link>
           <a href="https://rihor-portfolio.now.sh">PORTFOLIO</a>
         </nav>
         <header className={styles.header}>
@@ -49,7 +48,7 @@ const TextsPage: NextPage<Props> = ({ initialResult }) => {
         />
         <div className={styles.text}>
           {texts.map(text => (
-            <Link key={text.id} href={`texts/${text.slugs[0]}`}>
+            <Link key={text.id} href={`/texts/${text.uid}`}>
               <article>
                 <h1>{text.data.title[0].text}</h1>
                 {Array.isArray(text.data.subtitle) && (

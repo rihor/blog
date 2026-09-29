@@ -1,9 +1,4 @@
-import Prismic from 'prismic-javascript'
-import ApiSearchResponse from 'prismic-javascript/types/ApiSearchResponse'
-import { DefaultClient } from 'prismic-javascript/types/client'
-import { Document } from 'prismic-javascript/types/documents'
-import { RequestCallback } from 'prismic-javascript/types/request'
-import { QueryOptions } from 'prismic-javascript/types/ResolvedApi'
+import * as prismic from '@prismicio/client'
 
 interface TextData {
   body: Array<{ spans: Array<string>; text: string; type: string }>
@@ -29,13 +24,11 @@ interface TextData {
   date: string
 }
 
-export interface CustomDocument extends Document {
+export interface CustomDocument extends prismic.PrismicDocument {
   data: TextData
 }
 
-export interface CustomResult extends ApiSearchResponse {
-  results: CustomDocument[]
-}
+export type CustomResult = prismic.Query<CustomDocument>
 
 interface GetAllTextsInterface {
   pageSize?: number
@@ -44,24 +37,24 @@ interface GetAllTextsInterface {
 
 const apiEndpoint = 'https://rihor-blog.cdn.prismic.io/api/v2'
 
-const cmsClient = (req = null): DefaultClient => {
-  const options = req ? { req } : undefined
-
-  return Prismic.client(apiEndpoint, options)
-}
+const cmsClient = (): prismic.Client<CustomDocument> =>
+  prismic.createClient<CustomDocument>(apiEndpoint)
 
 export const request = async (
-  query: string | string[],
-  optionsOrCallback?: QueryOptions | RequestCallback<ApiSearchResponse>
-): Promise<ApiSearchResponse> => {
-  const response = await cmsClient().query(query, optionsOrCallback)
+  filters: string | string[],
+  params?: Partial<prismic.BuildQueryURLArgs>
+): Promise<CustomResult> => {
+  const response = await cmsClient().get({
+    ...params,
+    filters: Array.isArray(filters) ? filters : [filters]
+  })
 
   return response
 }
 
-export const retrieveAllSlugs = async (): Promise<Document[]> => {
+export const retrieveAllSlugs = async (): Promise<CustomDocument[]> => {
   const slugsResult = await request(
-    [Prismic.Predicates.at('document.type', 'text')],
+    [prismic.filter.at('document.type', 'text')],
     { fetch: 'text.title' }
   )
 
@@ -71,7 +64,7 @@ export const retrieveAllSlugs = async (): Promise<Document[]> => {
 export const requestTextBySlug = async (
   slug: string
 ): Promise<CustomDocument> => {
-  const textResult = await cmsClient().getByUID('text', slug, {})
+  const textResult = await cmsClient().getByUID('text', slug)
 
   return textResult
 }
@@ -79,26 +72,27 @@ export const requestTextBySlug = async (
 export const getAllTexts = async ({
   pageSize = 10,
   page = 1
-}: GetAllTextsInterface): Promise<ApiSearchResponse> => {
-  const result = await request(
-    [Prismic.Predicates.at('document.type', 'text')],
-    { pageSize, page, orderings: '[my.text.date desc]' }
-  )
+}: GetAllTextsInterface): Promise<CustomResult> => {
+  const result = await request([prismic.filter.at('document.type', 'text')], {
+    pageSize,
+    page,
+    orderings: [{ field: 'my.text.date', direction: 'desc' }]
+  })
 
   return result
 }
 
 export const searchForTexts = async (
   textToSearch?: string
-): Promise<ApiSearchResponse> => {
-  let result: ApiSearchResponse
+): Promise<CustomResult> => {
+  let result: CustomResult
 
   if (!textToSearch) {
     result = await getAllTexts({})
   } else {
     result = await request([
-      Prismic.Predicates.at('document.type', 'text'),
-      Prismic.Predicates.fulltext('document', textToSearch)
+      prismic.filter.at('document.type', 'text'),
+      prismic.filter.fulltext('document', textToSearch)
     ])
   }
 

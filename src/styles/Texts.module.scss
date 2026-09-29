@@ -1,5 +1,5 @@
 // import { Nav as BaseNav } from './sharedStyles'
-@import './SharedStyles.module.scss';
+@use './SharedStyles.module.scss';
 
 .main {
   height: 100%;

@@ -1,4 +1,5 @@
-import { AppProps } from 'next/app'
+import type { AppProps } from 'next/app'
+import type { JSX } from 'react'
 
 import '../styles/GlobalStyle.scss'
 

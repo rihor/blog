@@ -1,4 +1,5 @@
 import Document, { Html, Main, Head, NextScript } from 'next/document'
+import type { JSX } from 'react'
 
 export default class MyDocument extends Document {
   render(): JSX.Element {

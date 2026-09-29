@@ -1,14 +1,24 @@
 import { useCallback } from 'react'
 
-import { CustomResult } from '../../lib/prismic'
 import styles from './Pagination.module.scss'
+import type { CustomResult } from '../../lib/prismic'
 
 interface Props {
-  setResult(texts: React.SetStateAction<CustomResult>): void
+  setResult: (result: CustomResult) => void
   page: number
   nextPage: null | string
   prevPage: null | string
   totalPages: number
+}
+
+// example of regex find: "page=2"
+function changePageOnUrl(url: string, pageDesired: number) {
+  return url.replace(/page=\d*/, `page=${pageDesired}`)
+}
+
+async function fetchTexts(url: string): Promise<CustomResult> {
+  const response = await fetch(url)
+  return (await response.json()) as CustomResult
 }
 
 const Pagination: React.FC<Props> = ({
@@ -18,38 +28,24 @@ const Pagination: React.FC<Props> = ({
   prevPage,
   totalPages
 }) => {
-  function changePageOnUrl(url: string, pageDesired: number) {
-    // example of regex find: "page=2"
-    return url.replace(/page=\d*/, `page=${pageDesired}`)
-  }
+  const goTo = useCallback(
+    (url: string | null) => {
+      if (!url) return
+      fetchTexts(url).then(setResult).catch(console.error)
+    },
+    [setResult]
+  )
 
-  async function handleFetchTexts(url: string) {
-    const response = await fetch(url)
-    const result = await response.json()
-    setResult(result)
-  }
-
-  const handlePrevPage = useCallback(async () => {
-    if (!prevPage) return
-    await handleFetchTexts(prevPage)
-  }, [prevPage])
-
-  const handleNextPage = useCallback(async () => {
-    if (!nextPage) return
-    await handleFetchTexts(nextPage)
-  }, [nextPage])
-
-  const handleLastPage = useCallback(async () => {
-    if (!nextPage) return
-    const pageToSearch = changePageOnUrl(nextPage, totalPages)
-    await handleFetchTexts(pageToSearch)
-  }, [nextPage])
-
-  const handleFirstPage = useCallback(async () => {
-    if (!prevPage) return
-    const pageToSearch = changePageOnUrl(prevPage, 1)
-    await handleFetchTexts(pageToSearch)
-  }, [prevPage])
+  const handleFirstPage = useCallback(
+    () => goTo(prevPage && changePageOnUrl(prevPage, 1)),
+    [goTo, prevPage]
+  )
+  const handlePrevPage = useCallback(() => goTo(prevPage), [goTo, prevPage])
+  const handleNextPage = useCallback(() => goTo(nextPage), [goTo, nextPage])
+  const handleLastPage = useCallback(
+    () => goTo(nextPage && changePageOnUrl(nextPage, totalPages)),
+    [goTo, nextPage, totalPages]
+  )
 
   return (
     <div className={styles.pagination}>

@@ -1,4 +1,4 @@
-import { NextPage } from 'next'
+import type { NextPage } from 'next'
 import Link from 'next/link'
 import { useCallback, useRef } from 'react'
 
@@ -16,10 +16,10 @@ interface Props {
 }
 
 const Index: NextPage<Props> = ({ isMobile }) => {
-  const mouse = useRef([0, 0])
+  const mouseRef = useRef([0, 0])
 
   const onMouseMove = useCallback(({ clientX, clientY }: MouseMoveArgs) => {
-    mouse.current = [
+    mouseRef.current = [
       clientX - window.innerWidth / 2,
       clientY - window.innerHeight / 2
     ]
@@ -42,19 +42,17 @@ const Index: NextPage<Props> = ({ isMobile }) => {
             <h1>Abismo</h1>
 
             <button>
-              <Link href="/texts">
-                <a>Meus textos</a>
-              </Link>
+              <Link href="/texts">Meus textos</Link>
             </button>
           </header>
         </main>
       </section>
-      <EerieScene isMobile={isMobile} mouse={mouse} />
+      <EerieScene isMobile={isMobile} mouseRef={mouseRef} />
     </div>
   )
 }
 
-Index.getInitialProps = async ({ req }) => {
+Index.getInitialProps = ({ req }) => {
   const userAgent = (
     req ? req.headers['user-agent'] : navigator.userAgent
   ) as string

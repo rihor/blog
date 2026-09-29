@@ -1,9 +1,10 @@
-import { FC, useRef } from 'react'
+import type { FC } from 'react'
+import { useRef } from 'react'
 
 import styles from './SearchBar.module.scss'
 
 interface Props {
-  searchTextsWith(text?: string): Promise<void>
+  searchTextsWith: (text?: string) => Promise<void>
 }
 
 const SearchBar: FC<Props> = ({ searchTextsWith }) => {
@@ -11,20 +12,17 @@ const SearchBar: FC<Props> = ({ searchTextsWith }) => {
 
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault()
-    console.log('handleSubmit')
-
     if (inputRef.current) {
-      searchTextsWith(inputRef.current.value)
+      searchTextsWith(inputRef.current.value).catch(console.error)
     }
   }
 
   function cancelSearch() {
-    console.log('cancelSearch')
     if (inputRef.current) {
       inputRef.current.value = ''
     }
 
-    searchTextsWith(undefined)
+    searchTextsWith(undefined).catch(console.error)
   }
 
   return (
