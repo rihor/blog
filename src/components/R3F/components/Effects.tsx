@@ -17,7 +17,8 @@ const Effects: React.FC<EffectsProps> = ({ isMobile }) => {
   const chromaticAberrationOffset = useMemo(() => new Vector2(0.02, 0.002), [])
 
   return (
-    <EffectComposer>
+    // Default is 8x MSAA; the blur-heavy effects below hide the difference
+    <EffectComposer multisampling={isMobile ? 0 : 4}>
       {!isMobile ? (
         <DepthOfField
           focusDistance={0.181}

@@ -16,7 +16,16 @@ const EerieScene: React.FC<EerieSceneProps> = ({ isMobile, mouseRef }) => {
   const canvasArgs = useMemo(
     () => ({
       camera: { fov: 100, position: new Vector3(0, 0, 30) },
-      gl: { powerPreference: 'high-performance' as const }
+      // EffectComposer renders into its own multisampled targets, so the default
+      // framebuffer's MSAA/depth/stencil buffers would only cost memory and fill rate
+      gl: {
+        powerPreference: 'high-performance' as const,
+        antialias: false,
+        depth: false,
+        stencil: false
+      },
+      // Retina screens at 3x would shade 9x the pixels through every effect pass
+      dpr: [1, 1.5] as [number, number]
     }),
     []
   )
@@ -37,6 +46,7 @@ const EerieScene: React.FC<EerieSceneProps> = ({ isMobile, mouseRef }) => {
       camera={canvasArgs.camera}
       onCreated={handleCreateCanvas}
       gl={canvasArgs.gl}
+      dpr={canvasArgs.dpr}
     >
       <fog attach="fog" args={fogArgs} />
       <pointLight distance={100} intensity={2} color="lightblue" />
