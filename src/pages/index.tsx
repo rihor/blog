@@ -1,10 +1,15 @@
 import type { NextPage } from 'next'
+import dynamic from 'next/dynamic'
 import Link from 'next/link'
 import { useCallback, useRef } from 'react'
 
-import EerieScene from '../components/R3F/EerieScene'
 import SEO from '../components/SEO'
 import styles from '../styles/Home.module.scss'
+
+// WebGL only exists in the browser: keep three.js out of the server render entirely
+const EerieScene = dynamic(() => import('../components/R3F/EerieScene'), {
+  ssr: false
+})
 
 interface MouseMoveArgs {
   clientX: number
